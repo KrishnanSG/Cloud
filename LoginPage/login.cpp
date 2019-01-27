@@ -1,5 +1,6 @@
 #include "login.h"
 #include "welcome.h"
+#include "create.h"
 #include "ui_login.h"
 Login::Login(QWidget *parent) :
     QMainWindow(parent),
@@ -27,4 +28,13 @@ void Login::on_pushButton_clicked()
         w.exec();
         show();
     }
+}
+
+void Login::on_create_account_clicked()
+{
+    hide();
+    Create c;
+    c.showMaximized();
+    c.exec();
+    show();
 }

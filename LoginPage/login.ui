@@ -83,7 +83,7 @@ QLineEdit {
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>210</y>
+      <y>200</y>
       <width>80</width>
       <height>25</height>
      </rect>
@@ -103,9 +103,33 @@ QPushButton::hover{
      <string>Login</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="create_account">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>230</y>
+      <width>241</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+background-color: rgba(46, 52, 54,8);
+color: rgb(0, 0, 0);
+border-radius:14px;
+}
+QPushButton::hover{
+color: rgb(255,255,255);
+}</string>
+    </property>
+    <property name="text">
+     <string>No Account? Sign Up</string>
+    </property>
+   </widget>
    <zorder>lineEdit_2</zorder>
    <zorder>pushButton</zorder>
    <zorder>lineEdit</zorder>
+   <zorder>create_account</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

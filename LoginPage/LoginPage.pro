@@ -27,15 +27,20 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         login.cpp \
-    welcome.cpp
+    welcome.cpp \
+    create.cpp \
+    account.cpp
 
 HEADERS += \
         login.h \
-    welcome.h
+    welcome.h \
+    create.h \
+    account.h
 
 FORMS += \
         login.ui \
-    welcome.ui
+    welcome.ui \
+    create.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

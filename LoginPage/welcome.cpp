@@ -1,6 +1,7 @@
 #include "welcome.h"
 #include "ui_welcome.h"
 #include <QDir>
+#include <QFile>
 Welcome::Welcome(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Welcome)

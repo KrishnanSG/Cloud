@@ -18,6 +18,9 @@ public:
 private slots:
     void on_pushButton_clicked();
 
+
+    void on_create_account_clicked();
+
 private:
     Ui::Login *ui;
 };
