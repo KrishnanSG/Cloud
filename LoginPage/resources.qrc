@@ -1,8 +1,0 @@
-<RCC>
-    <qresource prefix="/resources">
-        <file>Images/login.jpg</file>
-        <file>Images/welcome.jpg</file>
-        <file>Images/create.jpeg</file>
-        <file>Images/user.png</file>
-    </qresource>
-</RCC>
