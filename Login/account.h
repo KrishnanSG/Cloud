@@ -1,18 +1,23 @@
 #ifndef ACCOUNT_H
 #define ACCOUNT_H
-#include <QString>
+#include <c++/7/cstring>
+#include <c++/7/iostream>
 
 class Account
 {
 private:
+/*
     QString username;
-    QString password;
-public:
-    QString get_username();
-    QString get_password();
+    QString password;*/
 
+
+public:
+    char username[32];
+    char password[32];
+    char * get_username();
+    char * get_password();
+    Account(char u[],char p[]);
     Account();
-    Account(QString username,QString password);
 };
 
 #endif // ACCOUNT_H

@@ -1,23 +1,23 @@
 #include "account.h"
-
-QString Account::get_username()
+using namespace std;
+Account::Account(char u[], char p[])
 {
-    return username;
-}
-
-QString Account::get_password()
-{
-    return password;
+    strcpy(username,u);
+    strcpy(password,p);
 }
 
 Account::Account()
 {
-    username="";
-    password="";
+    strcpy(username,"");
+    strcpy(password,"");
 }
 
-Account::Account(QString username, QString password)
+char *Account::get_username()
 {
-    this->username=username;
-    this->password=password;
+    return username;
+}
+
+char *Account::get_password()
+{
+    return password;
 }
