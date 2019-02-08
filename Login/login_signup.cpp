@@ -80,27 +80,32 @@ void Login_SignUp::on_create_clicked()
 
     // ----------------------- ********* --------------------------------------
 
-    FILE *fp;
-    fp = fopen("database.dat","ab+");
-    Account temp(input_username,input_password);
+    FILE *reading;
+    reading = fopen("database.dat","ab+");
+    Account temp_read(input_username,input_password);
     bool creation_status=true;
-    rewind(fp);
-    while(fread(&temp,sizeof (temp),1,fp))
+    rewind(reading);
+    while(fread(&temp_read,sizeof (temp_read),1,reading))
     {
-        if(strcmp(input_username,temp.get_username())==0)
+        if(strcmp(input_username,temp_read.get_username())==0)
         {
             creation_status=false;
             break;
         }
     }
+    fclose(reading);
+    temp_read.~Account();
+    FILE *writing;
+    writing = fopen("database.dat","ab+");
+    Account temp_write(input_username,input_password);
     if(creation_status)
     {
-        fwrite(&temp,sizeof (temp),1,fp);
+        fwrite(&temp_write,sizeof (temp_write),1,writing);
         QMessageBox::information(this,"Created","Accout created");
     }
     else
     {
         QMessageBox::critical(this,"Invalid Username","Username exists. Please login or retype username");
     }
-    fclose(fp);
+    fclose(writing);
 }
