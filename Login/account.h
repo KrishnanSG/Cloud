@@ -12,8 +12,8 @@ private:
 
 
 public:
-    char username[10];
-    char password[10];
+    char username[64];
+    char password[64];
     char * get_username();
     char * get_password();
     Account(char u[],char p[]);
