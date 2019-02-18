@@ -1,11 +1,5 @@
 #include "account.h"
 using namespace std;
-Account::Account(char u[], char p[])
-{
-    strcpy(username,u);
-    strcpy(password,p);
-}
-
 Account::Account()
 {
     strcpy(username,"");
@@ -20,4 +14,10 @@ char *Account::get_username()
 char *Account::get_password()
 {
     return password;
+}
+
+void Account::input(char u[64], char p[64])
+{
+    strcpy(username,u);
+    strcpy(password,p);
 }

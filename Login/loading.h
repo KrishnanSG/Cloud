@@ -13,8 +13,8 @@ class Loading : public QDialog
 
 public:
     explicit Loading(QWidget *parent = nullptr);
-    void download();
-    void downloaded();
+    void task_started(QString);
+    void task_completed(QString);
     ~Loading();
 
 

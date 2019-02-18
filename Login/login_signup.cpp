@@ -17,7 +17,7 @@ void Login_SignUp::threading()
 
 int database()
 {
-  //  QProcess::execute("skicka download pixel-database/database.dat database.dat");
+    QProcess::execute("skicka download pixel-database/database.dat database.dat");
     return 0;
 }
 
@@ -28,12 +28,11 @@ int database_upload()
     return 0;
 }
 
-
 void Login_SignUp::stop_animation()
 {
     qDebug() << watcher.isFinished();
     L.movie->stop();
-    L.downloaded();
+    L.task_completed("Completed");
     L.close();
     show();
 }
@@ -56,7 +55,7 @@ Login_SignUp::Login_SignUp(QWidget *parent) :QDialog(parent),ui(new Ui::Login_Si
     qDebug() << QDir::currentPath();
     connect(&watcher, SIGNAL(finished()), this, SLOT(stop_animation()));
     L.movie->start();
-    QFuture<void> f2 = QtConcurrent::run(&this->L,&Loading::download);
+    QFuture<void> f2 = QtConcurrent::run(&this->L,&Loading::task_started,QString("Connecting to Server..."));
     QFuture<int> f1 = QtConcurrent::run(database);
     watcher.setFuture(f1);
 
@@ -64,15 +63,13 @@ Login_SignUp::Login_SignUp(QWidget *parent) :QDialog(parent),ui(new Ui::Login_Si
 
 Login_SignUp::~Login_SignUp()
 {
-    QProcess::execute("move.sh pixel-database/skicka skicka");
-    qDebug() <<"Dtor";
     delete ui;
 }
 
 void Login_SignUp::on_login_clicked()
 {
     char input_username[64];
-    char input_password[32];
+    char input_password[64];
     QString input_user = ui->username->text();
     QString input_pass = ui->password->text();
 
@@ -132,10 +129,10 @@ void Login_SignUp::on_create_clicked()
     std::copy(input_pass.toStdString().begin(),input_pass.toStdString().end(),input_password);
 
     // ----------------------- ********* --------------------------------------
-
     FILE *reading;
     reading = fopen("database.dat","ab+");
-    Account temp_read(input_username,input_password);
+    Account temp_read;
+    temp_read.input(input_username,input_password);
     bool creation_status=true;
     rewind(reading);
     while(fread(&temp_read,sizeof (temp_read),1,reading))
@@ -147,22 +144,26 @@ void Login_SignUp::on_create_clicked()
         }
     }
     fclose(reading);
-    temp_read.~Account();
+    temp_read.input(input_username,input_password);
     if(creation_status)
-    {/*
+    {
         FILE *writing;
-        writing = fopen("database.dat","ab+");
-        Account temp_write(input_username,input_password);
-        fwrite(&temp_write,sizeof (temp_write),1,writing);
-        QMessageBox::information(this,"Created","Accout created");
-        fclose(writing);*/
-     //   database_upload();
-        //close();
-        L.show();
+        writing = fopen("database.dat","ab");
+        qDebug() << temp_read.get_password() << temp_read.get_username();
+
+        fwrite(&temp_read,sizeof (temp_read),1,writing);
+        fclose(writing);
+        QMessageBox::information(this,"Created","Account created");
+
+        L.movie->start();
+        QFuture<void> f2 = QtConcurrent::run(&this->L,&Loading::task_started,QString("Uploading Data"));
+        QFuture<int> f1 = QtConcurrent::run(database_upload);
+        watcher.setFuture(f1);
     }
     else
     {
         QMessageBox::critical(this,"Invalid Username","Username exists. Please login or retype username");
+        qDebug() << QDir::currentPath();
     }
 }
 
