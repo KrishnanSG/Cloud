@@ -1,13 +1,18 @@
 #include "login_signup.h"
 #include "ui_login_signup.h"
 #include "account.h"
+#include "homepage.h"
+#include "uploadpage.h"
+#include "search_page.h"
+#include "notifications_page.h"
 #include <QtConcurrent/QtConcurrent>
 #include <QMessageBox>
 #include <QDateTime>
 #include <QDir>
 #include <QDebug>
 #include <cstdio>
-
+#include "user_page.h"
+#include "friends.h"
 void Login_SignUp::threading()
 {
     Loading L;
@@ -33,6 +38,7 @@ void Login_SignUp::stop_animation()
     qDebug() << watcher.isFinished();
     L.movie->stop();
     L.task_completed("Completed");
+
     L.close();
     show();
 }
@@ -102,7 +108,12 @@ void Login_SignUp::on_login_clicked()
     }
     if(login_status==2)
     {
-        QMessageBox::information(this,"Success","Click ok to continue");
+        // ---------------- Login Success -------------------
+
+        Friends u;
+        u.show();
+        u.exec();
+        close();
     }
     else if(login_status==1)
     {
@@ -122,48 +133,81 @@ void Login_SignUp::on_create_clicked()
     strcpy(input_password,"");
     QString input_user = ui->create_username->text();
     QString input_pass = ui->create_password->text();
+    QString input_retype_pass = ui->create_retype_password->text();
 
-    // -------------- The below code converts QString to char[] ---------------
+    bool account_creation = false;
 
-    std::copy(input_user.toStdString().begin(),input_user.toStdString().end(),input_username);
-    std::copy(input_pass.toStdString().begin(),input_pass.toStdString().end(),input_password);
-
-    // ----------------------- ********* --------------------------------------
-    FILE *reading;
-    reading = fopen("database.dat","ab+");
-    Account temp_read;
-    temp_read.input(input_username,input_password);
-    bool creation_status=true;
-    rewind(reading);
-    while(fread(&temp_read,sizeof (temp_read),1,reading))
+    if(input_user.count()<2 || input_user.count()>10)
     {
-        if(strcmp(input_username,temp_read.get_username())==0)
-        {
-            creation_status=false;
-            break;
-        }
-    }
-    fclose(reading);
-    temp_read.input(input_username,input_password);
-    if(creation_status)
-    {
-        FILE *writing;
-        writing = fopen("database.dat","ab");
-        qDebug() << temp_read.get_password() << temp_read.get_username();
-
-        fwrite(&temp_read,sizeof (temp_read),1,writing);
-        fclose(writing);
-        QMessageBox::information(this,"Created","Account created");
-
-        L.movie->start();
-        QFuture<void> f2 = QtConcurrent::run(&this->L,&Loading::task_started,QString("Uploading Data"));
-        QFuture<int> f1 = QtConcurrent::run(database_upload);
-        watcher.setFuture(f1);
+        QMessageBox::critical(this,"Invalid Username","Please select a username of length between 2 and 10");
     }
     else
     {
-        QMessageBox::critical(this,"Invalid Username","Username exists. Please login or retype username");
-        qDebug() << QDir::currentPath();
+        if(input_pass.count()<2 || input_pass.count()>10)
+        {
+            QMessageBox::critical(this,"Invalid Password","Please select a password of length between 2 and 10");
+        }
+        else
+        {
+            if(input_pass!=input_retype_pass)
+            {
+                QMessageBox::critical(this,"Password Mismatch","Retype confirm password");
+            }
+            else
+            {
+                account_creation = true;
+            }
+
+        }
+    }
+    // -------------- The below code converts QString to char[] ---------------
+
+    if(account_creation==true)
+    {
+
+        std::copy(input_user.toStdString().begin(),input_user.toStdString().end(),input_username);
+        std::copy(input_pass.toStdString().begin(),input_pass.toStdString().end(),input_password);
+
+        // ----------------------- ********* --------------------------------------
+        FILE *reading;
+        reading = fopen("database.dat","ab+");
+        Account temp_read;
+        temp_read.input(input_username,input_password);
+        bool creation_status=true;
+        rewind(reading);
+        while(fread(&temp_read,sizeof (temp_read),1,reading))
+        {
+            if(strcmp(input_username,temp_read.get_username())==0)
+            {
+                creation_status=false;
+                break;
+            }
+        }
+        fclose(reading);
+        temp_read.input(input_username,input_password);
+        if(creation_status)
+        {
+            FILE *writing;
+            writing = fopen("database.dat","ab");
+            qDebug() << temp_read.get_password() << temp_read.get_username();
+
+            fwrite(&temp_read,sizeof (temp_read),1,writing);
+            fclose(writing);
+            QMessageBox::information(this,"Created","Account created");
+
+            L.movie->start();
+            QFuture<void> f2 = QtConcurrent::run(&this->L,&Loading::task_started,QString("Uploading Data"));
+            QFuture<int> f1 = QtConcurrent::run(database_upload);
+            watcher.setFuture(f1);
+
+
+
+        }
+        else
+        {
+            QMessageBox::critical(this,"Invalid Username","Username exists. Please login or retype username");
+            qDebug() << QDir::currentPath();
+        }
     }
 }
 
