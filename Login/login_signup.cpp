@@ -74,15 +74,15 @@ Login_SignUp::~Login_SignUp()
 
 void Login_SignUp::on_login_clicked()
 {
-    char input_username[64];
-    char input_password[64];
+    char input_username[16];
+    char input_password[16];
     QString input_user = ui->username->text();
     QString input_pass = ui->password->text();
 
     // -------------- The below code converts QString to char[] ---------------
 
-    std::copy(input_user.toStdString().begin(),input_user.toStdString().end(),input_username);
-    std::copy(input_pass.toStdString().begin(),input_pass.toStdString().end(),input_password);
+    std::strcpy(input_username,input_user.toStdString().c_str());
+    std::strcpy(input_password,input_pass.toStdString().c_str());
 
     // ----------------------- ********* --------------------------------------
 
@@ -110,9 +110,9 @@ void Login_SignUp::on_login_clicked()
     {
         // ---------------- Login Success -------------------
 
-        Friends u;
-        u.show();
-        u.exec();
+        HomePage h;
+        h.show();
+        h.exec();
         close();
     }
     else if(login_status==1)
@@ -127,10 +127,10 @@ void Login_SignUp::on_login_clicked()
 }
 void Login_SignUp::on_create_clicked()
 {
-    char input_username[64];
-    strcpy(input_username,"");
-    char input_password[64];
-    strcpy(input_password,"");
+    char input_username[16];
+    strcpy(input_username," ");
+    char input_password[16];
+    strcpy(input_password," ");
     QString input_user = ui->create_username->text();
     QString input_pass = ui->create_password->text();
     QString input_retype_pass = ui->create_retype_password->text();
@@ -165,9 +165,8 @@ void Login_SignUp::on_create_clicked()
     if(account_creation==true)
     {
 
-        std::copy(input_user.toStdString().begin(),input_user.toStdString().end(),input_username);
-        std::copy(input_pass.toStdString().begin(),input_pass.toStdString().end(),input_password);
-
+        std::strcpy(input_username,input_user.toStdString().c_str());
+        std::strcpy(input_password,input_pass.toStdString().c_str());
         // ----------------------- ********* --------------------------------------
         FILE *reading;
         reading = fopen("database.dat","ab+");
