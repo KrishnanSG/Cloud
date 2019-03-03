@@ -86,6 +86,9 @@ background-color:rgb(255,0,54);
    <property name="styleSheet">
     <string notr="true">QFrame{
 background-color: rgb(50,50,50);
+}
+QPushButton::hover{
+border-color: rgb(237, 212, 0);
 }</string>
    </property>
    <property name="frameShape">
@@ -94,7 +97,7 @@ background-color: rgb(50,50,50);
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="home">
     <property name="geometry">
      <rect>
       <x>190</x>
@@ -115,7 +118,7 @@ min-width:20px;
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="search">
     <property name="geometry">
      <rect>
       <x>340</x>
@@ -136,7 +139,7 @@ min-width:20px;
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="cloud">
     <property name="geometry">
      <rect>
       <x>480</x>
@@ -157,7 +160,7 @@ min-width:20px;
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="notification">
     <property name="geometry">
      <rect>
       <x>640</x>
@@ -178,7 +181,7 @@ min-width:20px;
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="user">
     <property name="geometry">
      <rect>
       <x>770</x>
@@ -191,8 +194,8 @@ min-width:20px;
      <string notr="true">QPushButton{
 	border-image: url(:/man-user.png);
 border-radius:10px;
-min-height:20px;
-min-width:20px;
+min-height:27px;
+min-width:24px;
 }</string>
     </property>
     <property name="text">

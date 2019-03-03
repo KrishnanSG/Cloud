@@ -94,7 +94,7 @@ background-color: rgb(50,50,50);
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="home">
     <property name="geometry">
      <rect>
       <x>190</x>
@@ -115,7 +115,7 @@ min-width:20px;
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="search">
     <property name="geometry">
      <rect>
       <x>340</x>
@@ -136,7 +136,7 @@ min-width:20px;
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="cloud">
     <property name="geometry">
      <rect>
       <x>480</x>
@@ -157,7 +157,7 @@ min-width:20px;
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="notification">
     <property name="geometry">
      <rect>
       <x>640</x>
@@ -178,7 +178,7 @@ min-width:20px;
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="user">
     <property name="geometry">
      <rect>
       <x>770</x>
@@ -220,14 +220,25 @@ font: 14pt &quot;Ubuntu&quot;;
     <string>Accept</string>
    </property>
   </widget>
-  <widget class="QPlainTextEdit" name="plainTextEdit">
+  <widget class="QTextEdit" name="textEdit">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>250</y>
+     <y>260</y>
      <width>691</width>
-     <height>301</height>
+     <height>341</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
+   <property name="cursor" stdset="0">
+    <cursorShape>ForbiddenCursor</cursorShape>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
@@ -273,14 +284,14 @@ font: 14pt &quot;Ubuntu&quot;;
 }</string>
    </property>
    <property name="text">
-    <string>Delete</string>
+    <string>Decline</string>
    </property>
   </widget>
   <zorder>label</zorder>
   <zorder>frame</zorder>
   <zorder>label_2</zorder>
   <zorder>pushButton_6</zorder>
-  <zorder>plainTextEdit</zorder>
+  <zorder>textEdit</zorder>
   <zorder>label_3</zorder>
   <zorder>label_4</zorder>
   <zorder>pushButton_7</zorder>

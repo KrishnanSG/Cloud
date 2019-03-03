@@ -1,5 +1,8 @@
-//#include "homepage.h"
 #include "homepage.h"
+#include "search_page.h"
+#include "uploadpage.h"
+#include "notifications_page.h"
+#include "user_page.h"
 #include "ui_homepage.h"
 #include <QPixmap>
 HomePage::HomePage(QWidget *parent) :
@@ -14,12 +17,43 @@ HomePage::~HomePage()
     delete ui;
 }
 
-void HomePage::on_pushButton_clicked()
+
+void HomePage::on_home_clicked()
 {
+    HomePage H;
+    H.show();
+    this->close();
+    H.exec();
+}
 
-    int w=ui->label_5->width();
-    int h=ui->label_5->height();
-    QPixmap pix = QPixmap("://create.jpeg");
-    ui->label_5->setPixmap(pix.scaled(w,h,Qt::KeepAspectRatio));
+void HomePage::on_search_clicked()
+{
+    Search_Page H;
+    H.show();
+    this->close();
+    H.exec();
+}
 
+void HomePage::on_cloud_clicked()
+{
+    Uploadpage H;
+    H.show();
+    this->close();
+    H.exec();
+}
+
+void HomePage::on_notification_clicked()
+{
+    Notifications_Page H;
+    H.show();
+    this->close();
+    H.exec();
+}
+
+void HomePage::on_user_clicked()
+{
+    User_Page H;
+    H.show();
+    this->close();
+    H.exec();
 }

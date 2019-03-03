@@ -46,25 +46,50 @@ void Login_SignUp::stop_animation()
 Login_SignUp::Login_SignUp(QWidget *parent) :QDialog(parent),ui(new Ui::Login_SignUp)
 {
     ui->setupUi(this);
-    //hide();
+// -------  To check internet connection -------------
+
     QString str = QDir::homePath();
     QDir working_directory;
     QDir::setCurrent(str);
-    if(working_directory.exists(str + "/pixel-database"))
-    {
-        QDir deleting(str + "/pixel-database");
-        deleting.removeRecursively();
-    }
-    working_directory.mkpath("pixel-database");
-    QProcess::execute("move.sh skicka pixel-database/skicka");
-    QDir::setCurrent(str + "/pixel-database");
-    qDebug() << QDir::currentPath();
-    connect(&watcher, SIGNAL(finished()), this, SLOT(stop_animation()));
-    L.movie->start();
-    QFuture<void> f2 = QtConcurrent::run(&this->L,&Loading::task_started,QString("Connecting to Server..."));
-    QFuture<int> f1 = QtConcurrent::run(database);
-    watcher.setFuture(f1);
+    QProcess::execute("online.sh");
+    FILE *f;
+    f=fopen("internet.txt","r");
+    int a;
+    fscanf(f,"%d",&a);
+    fclose(f);
+    remove("internet.txt");
 
+    // the script is not writing if we use process
+// -------------- *** ----------------------------
+    if(a==0)
+    {
+        QMessageBox m;
+        m.critical(this,"No Internet","Please check your internet connection");
+        QFile a;
+        exit(0);
+    }
+    else
+    {
+
+        //hide();
+        QString str = QDir::homePath();
+        QDir working_directory;
+        QDir::setCurrent(str);
+        if(working_directory.exists(str + "/pixel-database"))
+        {
+            QDir deleting(str + "/pixel-database");
+            deleting.removeRecursively();
+        }
+        working_directory.mkpath("pixel-database");
+        QProcess::execute("move.sh skicka pixel-database/skicka");
+        QDir::setCurrent(str + "/pixel-database");
+        qDebug() << QDir::currentPath();
+        connect(&watcher, SIGNAL(finished()), this, SLOT(stop_animation()));
+        L.movie->start();
+        QFuture<void> f2 = QtConcurrent::run(&this->L,&Loading::task_started,QString("Connecting to Server..."));
+        QFuture<int> f1 = QtConcurrent::run(database);
+        watcher.setFuture(f1);
+    }
 }
 
 Login_SignUp::~Login_SignUp()
@@ -112,8 +137,9 @@ void Login_SignUp::on_login_clicked()
 
         HomePage h;
         h.show();
-        h.exec();
         close();
+        h.exec();
+
     }
     else if(login_status==1)
     {
@@ -188,8 +214,6 @@ void Login_SignUp::on_create_clicked()
         {
             FILE *writing;
             writing = fopen("database.dat","ab");
-            qDebug() << temp_read.get_password() << temp_read.get_username();
-
             fwrite(&temp_read,sizeof (temp_read),1,writing);
             fclose(writing);
             QMessageBox::information(this,"Created","Account created");
@@ -198,9 +222,6 @@ void Login_SignUp::on_create_clicked()
             QFuture<void> f2 = QtConcurrent::run(&this->L,&Loading::task_started,QString("Uploading Data"));
             QFuture<int> f1 = QtConcurrent::run(database_upload);
             watcher.setFuture(f1);
-
-
-
         }
         else
         {
