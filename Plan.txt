@@ -1,0 +1,62 @@
+
+program starts
+1.database.dat download - this contains username password image_count
+
+Feedpage/Homepage
+
+Now user logins
+cd to his folder
+1.friends.dat download - this contains friends_username image_count
+
+2. Merge image files folders as images into feedpage folder
+	#Locally
+
+3. Read the folder and display images
+	$ how to like display like count 
+
+UploadPage
+
+1. run script upload to database
+2. write into image.dat file - imagename,caption,like_count
+3. search username in database.dat and increase the count by 1
+
+Notification
+
+1. Download database.dat file again
+2. notification.txt - write the file
+
+	friends_image_count-database_image_count for all friends
+
+	# store locally
+3. Print the file
+
+SearchPage
+
+1. read database.dat file and search for name
+2. if name found 
+	i. check if he is your friend in friends.dat
+		if yes - show view profile button
+		else - show friend button
+  name not found msg box
+
+	View profile button pressed user_page ui and load image.dat for that friend
+
+	Friend button pressed add his name to friends.dat for both users
+
+
+UserPage
+
+1. Load images.dat file
+2. Display
+
+	if friend button clicked open friend.ui
+
+	in friend.ui 
+		if view profile clicked open user_page and load that friends image.dat file
+		if unfriend clciked delete this name from friends.dat
+
+
+			
+
+
+

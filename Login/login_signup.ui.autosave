@@ -84,7 +84,7 @@ border-image: url(:/Final_Logo.png);
 }</string>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -539,12 +539,12 @@ color:grey;
   <tabstop>password</tabstop>
   <tabstop>login</tabstop>
   <tabstop>create</tabstop>
-  <tabstop>upload</tabstop>
-  <tabstop>tabWidget</tabstop>
-  <tabstop>create_retype_password</tabstop>
-  <tabstop>create_password</tabstop>
-  <tabstop>upload_2</tabstop>
   <tabstop>create_username</tabstop>
+  <tabstop>create_retype_password</tabstop>
+  <tabstop>upload</tabstop>
+  <tabstop>upload_2</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>create_password</tabstop>
  </tabstops>
  <resources/>
  <connections/>

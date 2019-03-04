@@ -6,12 +6,12 @@
 class Account
 {
 private:
-    char username[64];
-    char password[64];
+    char username[16];
+    char password[16];
 public:
     char * get_username();
     char * get_password();
-    void input(char[64],char[64]);
+    void input(char[16],char[16]);
   //  Account(char u[64],char p[64]);
     Account();
 };

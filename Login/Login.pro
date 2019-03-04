@@ -27,17 +27,35 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         login_signup.cpp \
+    search_page.cpp\
     account.cpp \
-    loading.cpp
+    uploadpage.cpp\
+    loading.cpp \
+    homepage.cpp \
+    notifications_page.cpp \
+    user_page.cpp \
+    friends.cpp
 
 HEADERS += \
         login_signup.h \
+    search_page.h\
+    uploadpage.h\
     account.h \
-    loading.h
+    loading.h \
+    homepage.h \
+    notifications_page.h \
+    user_page.h \
+    friends.h
 
 FORMS += \
         login_signup.ui \
-    loading.ui
+    search_page.ui\
+    loading.ui \
+    uploadpage.ui\
+    homepage.ui \
+    notifications_page.ui \
+    user_page.ui \
+    friends.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
