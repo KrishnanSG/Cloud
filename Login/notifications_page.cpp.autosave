@@ -196,7 +196,6 @@ void Notifications_Page::on_Delete_Request_clicked()
     fclose(fptr);
     remove("Request.txt");
     rename("Data.txt","Request.txt");
-
     QDir::setCurrent(str + "/pixel-database");
     Notifications_Page H(A.get_username());
     H.show();

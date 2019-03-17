@@ -46,6 +46,9 @@
    <property name="text">
     <string/>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
@@ -57,7 +60,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 25pt &quot;Ubuntu&quot;;</string>
+    <string notr="true">font: 18pt &quot;Ubuntu&quot;;</string>
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Connecting to Server...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>

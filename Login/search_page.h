@@ -5,7 +5,7 @@
 #include "notifications_page.h"
 #include "user_page.h"
 #include <QDialog>
-
+#include <QString>
 namespace Ui {
 class Search_Page;
 }
@@ -15,7 +15,7 @@ class Search_Page : public QDialog
     Q_OBJECT
 
 public:
-    explicit Search_Page(QWidget *parent = nullptr);
+    explicit Search_Page(char username[16],QWidget *parent = nullptr);
     ~Search_Page();
 
 private slots:
@@ -30,8 +30,14 @@ private slots:
 
     void on_user_clicked();
 
+    void on_search_button_clicked();
+
+    void on_make_friend_button_clicked();
+
 private:
     Ui::Search_Page *ui;
+    Account A,B;
+    QString username;
 };
 
 #endif // SEARCH_PAGE_H

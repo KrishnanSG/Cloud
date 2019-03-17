@@ -2,6 +2,11 @@
 #define HOMEPAGE_H
 
 #include <QDialog>
+#include <QObject>
+#include "account.h"
+#include <QVector>
+#include <QDir>
+#include <QFile>
 
 namespace Ui {
 class HomePage;
@@ -12,7 +17,7 @@ class HomePage : public QDialog
     Q_OBJECT
 
 public:
-    explicit HomePage(QWidget *parent = nullptr);
+    explicit HomePage(char username[16], QWidget *parent = nullptr);
     ~HomePage();
 
 private slots:
@@ -27,8 +32,15 @@ private slots:
 
     void on_user_clicked();
 
+    void on_prev_pic_clicked();
+
+    void on_next_pic_clicked();
+
 private:
         Ui::HomePage *ui;
+        Account A;
+        QVector <QString> image_path_vector;
+        int current_pic;
     //Ui::HomePage *ui;
 };
 

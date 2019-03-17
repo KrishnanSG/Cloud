@@ -200,7 +200,7 @@ min-width:20px;
     </property>
    </widget>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="enter_username_lineEdit">
    <property name="geometry">
     <rect>
      <x>280</x>
@@ -225,7 +225,7 @@ padding-left:10px;
     <string>                  Enter the userid </string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_6">
+  <widget class="QPushButton" name="search_button">
    <property name="geometry">
     <rect>
      <x>660</x>
@@ -245,7 +245,7 @@ font: 14pt &quot;Ubuntu&quot;;
     <string>Search</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_8">
+  <widget class="QPushButton" name="make_friend_button">
    <property name="geometry">
     <rect>
      <x>570</x>
@@ -265,7 +265,7 @@ font: 14pt &quot;Ubuntu&quot;;
     <string>Friend</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_4">
+  <widget class="QLabel" name="display_username_label">
    <property name="geometry">
     <rect>
      <x>250</x>
@@ -278,7 +278,7 @@ font: 14pt &quot;Ubuntu&quot;;
     <string>Username</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3">
+  <widget class="QLabel" name="display_profile_label">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -291,7 +291,7 @@ font: 14pt &quot;Ubuntu&quot;;
     <string>*</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_9">
+  <widget class="QPushButton" name="view_profile_button">
    <property name="geometry">
     <rect>
      <x>770</x>
@@ -314,12 +314,12 @@ font: 14pt &quot;Ubuntu&quot;;
   <zorder>label</zorder>
   <zorder>frame</zorder>
   <zorder>label_2</zorder>
-  <zorder>lineEdit</zorder>
-  <zorder>pushButton_6</zorder>
-  <zorder>pushButton_8</zorder>
-  <zorder>label_4</zorder>
-  <zorder>label_3</zorder>
-  <zorder>pushButton_9</zorder>
+  <zorder>enter_username_lineEdit</zorder>
+  <zorder>search_button</zorder>
+  <zorder>make_friend_button</zorder>
+  <zorder>display_username_label</zorder>
+  <zorder>display_profile_label</zorder>
+  <zorder>view_profile_button</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

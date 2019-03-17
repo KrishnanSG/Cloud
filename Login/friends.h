@@ -2,6 +2,7 @@
 #define FRIENDS_H
 
 #include <QDialog>
+#include "account.h"
 
 namespace Ui {
 class Friends;
@@ -12,7 +13,7 @@ class Friends : public QDialog
     Q_OBJECT
 
 public:
-    explicit Friends(QWidget *parent = nullptr);
+    explicit Friends(char username[16],QWidget *parent = nullptr);
     ~Friends();
 
 private slots:
@@ -29,6 +30,7 @@ private slots:
 
 private:
     Ui::Friends *ui;
+    Account A;
 };
 
 #endif // FRIENDS_H

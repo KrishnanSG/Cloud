@@ -6,11 +6,18 @@
 class Account
 {
 private:
-    char username[16];
+
     char password[16];
+
+protected:
+    char username[16];
+    int  image_count;
 public:
     char * get_username();
     char * get_password();
+    int get_image_count();
+    void add_image();
+    void input(char [16]);
     void input(char[16],char[16]);
   //  Account(char u[64],char p[64]);
     Account();

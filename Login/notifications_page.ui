@@ -200,7 +200,7 @@ min-width:20px;
     </property>
    </widget>
   </widget>
-  <widget class="QPushButton" name="pushButton_6">
+  <widget class="QPushButton" name="Accept_Request_Button">
    <property name="geometry">
     <rect>
      <x>520</x>
@@ -220,7 +220,7 @@ font: 14pt &quot;Ubuntu&quot;;
     <string>Accept</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit">
+  <widget class="QPlainTextEdit" name="display_notifications">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -240,8 +240,11 @@ font: 14pt &quot;Ubuntu&quot;;
    <property name="cursor" stdset="0">
     <cursorShape>ForbiddenCursor</cursorShape>
    </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QLabel" name="label_3">
+  <widget class="QLabel" name="display_profile">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -254,7 +257,7 @@ font: 14pt &quot;Ubuntu&quot;;
     <string>*</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_4">
+  <widget class="QLabel" name="display_username">
    <property name="geometry">
     <rect>
      <x>250</x>
@@ -267,7 +270,7 @@ font: 14pt &quot;Ubuntu&quot;;
     <string>Username</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_7">
+  <widget class="QPushButton" name="Delete_Request">
    <property name="geometry">
     <rect>
      <x>710</x>
@@ -290,11 +293,11 @@ font: 14pt &quot;Ubuntu&quot;;
   <zorder>label</zorder>
   <zorder>frame</zorder>
   <zorder>label_2</zorder>
-  <zorder>pushButton_6</zorder>
-  <zorder>textEdit</zorder>
-  <zorder>label_3</zorder>
-  <zorder>label_4</zorder>
-  <zorder>pushButton_7</zorder>
+  <zorder>Accept_Request_Button</zorder>
+  <zorder>display_notifications</zorder>
+  <zorder>display_profile</zorder>
+  <zorder>display_username</zorder>
+  <zorder>Delete_Request</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

@@ -13,6 +13,7 @@
 #include <cstdio>
 #include "user_page.h"
 #include "friends.h"
+
 void Login_SignUp::threading()
 {
     Loading L;
@@ -20,36 +21,83 @@ void Login_SignUp::threading()
     L.show();
 }
 
-int database()
+int download(QString remote,QString local)      // for files
+{
+    QProcess::execute("skicka download "+remote+" "+local);
+    return 0;
+}
+
+int upload(QString local,QString remote)    // for files
+{
+    QProcess::execute("skicka upload "+local+" "+remote);
+    return 0;
+}
+
+int download()
 {
     QProcess::execute("skicka download pixel-database/database.dat database.dat");
     return 0;
 }
 
-int database_upload()
+int upload(QString folder_name)
 {
     QProcess::execute("skicka upload database.dat pixel-database");
-    qDebug() << "Uploaded";
+    QProcess::execute("skicka mkdir pixel-database/"+QString(folder_name));
+    QProcess::execute("create_files.sh "+QString(folder_name));
+    QProcess::execute("skicka upload "+QString(folder_name)+" pixel-database/"+QString(folder_name));
+    //QProcess::execute("rm friends.txt notification.txt images.dat");
+    qDebug() << "Uploaded ";
     return 0;
+}
+
+void Login_SignUp::load_friends_data()
+{
+    FILE *friends_list;
+    QDir::setCurrent(QDir::homePath()+"/pixel-database/"+QString(current_user));
+    char friends_folder[10];
+    char t[16];
+    strcpy(t,current_user);
+    friends_list = fopen("friends.txt","r");
+    while(fscanf(friends_list,"%s",friends_folder)!=EOF)
+    {
+        QtConcurrent::run(download,QString("pixel-database/")+QString(friends_folder),QString(friends_folder));
+        qDebug() << friends_folder << " Downloaded";
+    }
+    fclose(friends_list);
+    QDir::setCurrent(QDir::homePath()+"/pixel-database/");
+    /// starts downloading friends data
 }
 
 void Login_SignUp::stop_animation()
 {
-    qDebug() << watcher.isFinished();
     L.movie->stop();
     L.task_completed("Completed");
-
     L.close();
-    show();
+    if(login_status==2)
+    {
+        load_friends_data();
+   /*     HomePage H(current_user);
+        H.show();
+        close();
+        H.exec();
+*/
+        Uploadpage H(current_user);
+        H.show();
+        close();
+        H.exec();
+    }
+    else
+        show();
 }
 
 Login_SignUp::Login_SignUp(QWidget *parent) :QDialog(parent),ui(new Ui::Login_SignUp)
 {
     ui->setupUi(this);
-// -------  To check internet connection -------------
+
+    // -------  To check internet connection -------------
 
     QString str = QDir::homePath();
-    QDir working_directory;
+    //
     QDir::setCurrent(str);
     QProcess::execute("online.sh");
     FILE *f;
@@ -59,8 +107,6 @@ Login_SignUp::Login_SignUp(QWidget *parent) :QDialog(parent),ui(new Ui::Login_Si
     fclose(f);
     remove("internet.txt");
 
-    // the script is not writing if we use process
-// -------------- *** ----------------------------
     if(a==0)
     {
         QMessageBox m;
@@ -70,24 +116,29 @@ Login_SignUp::Login_SignUp(QWidget *parent) :QDialog(parent),ui(new Ui::Login_Si
     }
     else
     {
-
         //hide();
         QString str = QDir::homePath();
         QDir working_directory;
         QDir::setCurrent(str);
-        if(working_directory.exists(str + "/pixel-database"))
+
+        /*  Uncomment if deleting of the local database is required
+
+         if(working_directory.exists(str + "/pixel-database"))
         {
             QDir deleting(str + "/pixel-database");
             deleting.removeRecursively();
         }
+
+        */
         working_directory.mkpath("pixel-database");
-        QProcess::execute("move.sh skicka pixel-database/skicka");
+        //QProcess::execute("move.sh skicka pixel-database/skicka");
         QDir::setCurrent(str + "/pixel-database");
         qDebug() << QDir::currentPath();
         connect(&watcher, SIGNAL(finished()), this, SLOT(stop_animation()));
+        L.input_path_for_movie(":/giphy.gif");
         L.movie->start();
         QFuture<void> f2 = QtConcurrent::run(&this->L,&Loading::task_started,QString("Connecting to Server..."));
-        QFuture<int> f1 = QtConcurrent::run(database);
+        QFuture<int> f1 = QtConcurrent::run(download);
         watcher.setFuture(f1);
     }
 }
@@ -115,7 +166,7 @@ void Login_SignUp::on_login_clicked()
     fp = fopen("database.dat","ab+");
     Account temp;
     rewind(fp);
-    int login_status=0;    // 0-account doesn't exist 1-password incorrect 2-success
+
     while(fread(&temp,sizeof (temp),1,fp))
     {
         if(strcmp(input_username,temp.get_username())==0)
@@ -131,14 +182,38 @@ void Login_SignUp::on_login_clicked()
             }
         }
     }
+    fclose(fp);
     if(login_status==2)
     {
         // ---------------- Login Success -------------------
 
-        HomePage h;
-        h.show();
-        close();
-        h.exec();
+        std::strcpy(current_user,input_username);
+        QString str = QDir::homePath();
+        QDir::setCurrent(str + "/pixel-database");
+        L.input_path_for_movie(":/download.gif");
+        L.movie->start();
+        QFuture<void> f2 = QtConcurrent::run(&this->L,&Loading::task_started,QString("Downloading Data"));
+        QFuture<int> f1 = QtConcurrent::run(download,QString("pixel-database/")+QString(input_username),QString(input_username));
+        watcher.setFuture(f1);
+
+        //  QProcess::execute("skicka ls pixel-database/");
+
+        /*
+         * Note: Found out the method to dowload files in seperate threads
+         *     it is done by using loop as show above
+         * now the thing is we have to run animation till all dowload
+         * currently even if one download finishes it stops
+         *
+         */
+        /*
+         *
+         *  Lot of loading work to be implemented
+         *  1. download users folder (done)
+         -------
+         * (Challenge) *  2. read friends.dat start downloading all friends folder in seperate threads
+         *  3. now create a merge copy of all friends folder into a feedpage folder using script
+        */
+
 
     }
     else if(login_status==1)
@@ -149,7 +224,6 @@ void Login_SignUp::on_login_clicked()
     {
         QMessageBox::critical(this,"Login Failed","Invaild Username or account doesnot exist");
     }
-    fclose(fp);
 }
 void Login_SignUp::on_create_clicked()
 {
@@ -217,10 +291,10 @@ void Login_SignUp::on_create_clicked()
             fwrite(&temp_read,sizeof (temp_read),1,writing);
             fclose(writing);
             QMessageBox::information(this,"Created","Account created");
-
+            L.input_path_for_movie(":/giphy.gif");
             L.movie->start();
             QFuture<void> f2 = QtConcurrent::run(&this->L,&Loading::task_started,QString("Uploading Data"));
-            QFuture<int> f1 = QtConcurrent::run(database_upload);
+            QFuture<int> f1 = QtConcurrent::run(upload,QString(input_username));
             watcher.setFuture(f1);
         }
         else
@@ -231,3 +305,17 @@ void Login_SignUp::on_create_clicked()
     }
 }
 
+
+void Login_SignUp::on_upload_clicked()
+{
+    QString str = QDir::homePath();
+    QDir::setCurrent(str);
+    QString image_file = QFileDialog::getOpenFileName(this,tr("Select Image"),QDir::homePath(),tr("Images (*.png *.jpg *.bmp *.jpeg)"));
+    QDir dir;
+    dir.mkpath(str+"pixel-database/Profile_pics");
+    QString new_name = ui->username->text();
+    QProcess::execute("copy_uploaded.sh "+image_file+" pixel-database/Profile_pics""/"+new_name);
+    QDir::setCurrent(str+"/pixel-database");
+    QPixmap pic(image_file);
+    ui->profile_pic->setPixmap(pic.scaled(ui->profile_pic->width(),ui->profile_pic->height(),Qt::KeepAspectRatio));
+}

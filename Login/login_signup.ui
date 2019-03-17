@@ -505,7 +505,7 @@ min-width:20px;
        <string/>
       </property>
      </widget>
-     <widget class="QPushButton" name="upload_2">
+     <widget class="QLabel" name="profile_pic">
       <property name="geometry">
        <rect>
         <x>180</x>
@@ -515,14 +515,11 @@ min-width:20px;
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">QPushButton{
-border-radius:10px;
-min-height:20px;
-min-width:20px;
-border-image: url(:/SAVE_20190202_171639.png);
-}
-QPushButton::hover{
-color:grey;
+       <string notr="true">QLabel{
+	border-radius:20px;
+	min-height:20px;
+	min-width:20px;
+	border-image: url(:/SAVE_20190202_171639.png);
 }</string>
       </property>
       <property name="text">
@@ -543,7 +540,6 @@ color:grey;
   <tabstop>tabWidget</tabstop>
   <tabstop>create_retype_password</tabstop>
   <tabstop>create_password</tabstop>
-  <tabstop>upload_2</tabstop>
   <tabstop>create_username</tabstop>
  </tabstops>
  <resources/>
