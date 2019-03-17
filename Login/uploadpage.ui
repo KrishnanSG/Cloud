@@ -182,28 +182,35 @@ min-width:20px;
     </property>
    </widget>
   </widget>
-  <widget class="QLabel" name="label_3">
+  <widget class="QLabel" name="display_image">
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>150</y>
+     <y>160</y>
      <width>641</width>
      <height>391</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">QLabel{
-	border-image: url(:/create.jpeg);}</string>
+	border:1px solid black;
+}</string>
    </property>
    <property name="text">
-    <string/>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Image Preview&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit">
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>580</y>
+     <y>583</y>
      <width>641</width>
      <height>25</height>
     </rect>
@@ -222,7 +229,7 @@ min-width:20px;
     <string>Enter Caption </string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_8">
+  <widget class="QPushButton" name="select_image">
    <property name="geometry">
     <rect>
      <x>790</x>
@@ -242,7 +249,7 @@ background-color:rgb(52, 152, 219);
     <string>Select</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_9">
+  <widget class="QPushButton" name="picture_upload">
    <property name="geometry">
     <rect>
      <x>790</x>

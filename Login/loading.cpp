@@ -9,13 +9,16 @@ Loading::Loading(QWidget *parent) :
     ui->setupUi(this);
 
 }
+
 void Loading::task_started(QString s)
 {
     ui->label_2->setText(s);
     ui->label->setMovie(movie);
     ui->label->show();
     show();
-    exec();
+    if(download_started==false)
+        exec();
+
 }
 
 void Loading::task_completed(QString s)

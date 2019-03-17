@@ -6,11 +6,12 @@
 #include "friends.h"
 #include "ui_friends.h"
 
-Friends::Friends(QWidget *parent) :
+Friends::Friends(char username[16],QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Friends)
 {
     ui->setupUi(this);
+    A.input(username);
 }
 
 Friends::~Friends()
@@ -20,7 +21,7 @@ Friends::~Friends()
 
 void Friends::on_home_clicked()
 {
-    HomePage H;
+    HomePage H(A.get_username());
     H.show();
     this->close();
     H.exec();
@@ -28,7 +29,7 @@ void Friends::on_home_clicked()
 
 void Friends::on_search_clicked()
 {
-    Search_Page H;
+    Search_Page H(A.get_username());
     H.show();
     this->close();
     H.exec();
@@ -36,7 +37,7 @@ void Friends::on_search_clicked()
 
 void Friends::on_cloud_clicked()
 {
-    Uploadpage H;
+    Uploadpage H(A.get_username());
     H.show();
     this->close();
     H.exec();
@@ -44,7 +45,7 @@ void Friends::on_cloud_clicked()
 
 void Friends::on_notification_clicked()
 {
-    Notifications_Page H;
+    Notifications_Page H(A.get_username());
     H.show();
     this->close();
     H.exec();
@@ -52,7 +53,7 @@ void Friends::on_notification_clicked()
 
 void Friends::on_user_clicked()
 {
-    User_Page H;
+    User_Page H(A.get_username());
     H.show();
     this->close();
     H.exec();

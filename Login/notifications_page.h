@@ -2,6 +2,7 @@
 #define NOTIFICATIONS_PAGE_H
 
 #include <QDialog>
+#include "account.h"
 
 namespace Ui {
 class Notifications_Page;
@@ -12,7 +13,7 @@ class Notifications_Page : public QDialog
     Q_OBJECT
 
 public:
-    explicit Notifications_Page(QWidget *parent = nullptr);
+    explicit Notifications_Page(char username[16],QWidget *parent = nullptr);
     ~Notifications_Page();
 
 private slots:
@@ -27,8 +28,13 @@ private slots:
 
     void on_user_clicked();
 
+    void on_Accept_Request_Button_clicked();
+
+    void on_Delete_Request_clicked();
+
 private:
     Ui::Notifications_Page *ui;
+    Account A;
 };
 
 #endif // NOTIFICATIONS_PAGE_H

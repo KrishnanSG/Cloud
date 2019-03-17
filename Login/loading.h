@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QMovie>
+#include <QFutureSynchronizer>
 namespace Ui {
 class Loading;
 }
@@ -21,7 +22,12 @@ public:
 private:
     Ui::Loading *ui;
 public:
-    QMovie *movie = new QMovie(":/giphy.gif");
+    bool download_started = false;
+    QMovie *movie;// = new QMovie(":/giphy.gif");
+    void input_path_for_movie(QString path)
+    {
+        movie = new QMovie(path);
+    }
 
 };
 #endif // LOADING_H
