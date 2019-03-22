@@ -1,11 +1,12 @@
 #ifndef SEARCH_PAGE_H
 #define SEARCH_PAGE_H
-#include "homepage.h"
+/*#include "homepage.h"
 #include "uploadpage.h"
 #include "notifications_page.h"
-#include "user_page.h"
+#include "user_page.h"*/
+#include "account.h"
+#include <QMessageBox>
 #include <QDialog>
-#include <QString>
 namespace Ui {
 class Search_Page;
 }
@@ -38,6 +39,7 @@ private:
     Ui::Search_Page *ui;
     Account A,B;
     QString username;
+    void send_notification();
 };
 
 #endif // SEARCH_PAGE_H

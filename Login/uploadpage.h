@@ -39,6 +39,7 @@ private:
     Ui::Uploadpage *ui;
     QString image_file;
     Account A;
+    QString img_path;
 };
 
 #endif // UPLOADPAGE_H

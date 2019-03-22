@@ -1,18 +1,19 @@
 #include "login_signup.h"
 #include "ui_login_signup.h"
 #include "account.h"
-#include "homepage.h"
-#include "uploadpage.h"
-#include "search_page.h"
-#include "notifications_page.h"
+//#include "homepage.h"
+//#include "uploadpage.h"
+//#include "search_page.h"
+//#include "notifications_page.h"
 #include <QtConcurrent/QtConcurrent>
 #include <QMessageBox>
 #include <QDateTime>
 #include <QDir>
 #include <QDebug>
 #include <cstdio>
-#include "user_page.h"
-#include "friends.h"
+#include "controller.h"
+//#include "user_page.h"
+//#include "friends.h"
 
 void Login_SignUp::threading()
 {
@@ -80,11 +81,8 @@ void Login_SignUp::stop_animation()
         H.show();
         close();
         H.exec();
-*/
-        Uploadpage H(current_user);
-        H.show();
-        close();
-        H.exec();
+*/      close();
+        Controller Brain(current_user);
     }
     else
         show();
@@ -305,17 +303,3 @@ void Login_SignUp::on_create_clicked()
     }
 }
 
-
-void Login_SignUp::on_upload_clicked()
-{
-    QString str = QDir::homePath();
-    QDir::setCurrent(str);
-    QString image_file = QFileDialog::getOpenFileName(this,tr("Select Image"),QDir::homePath(),tr("Images (*.png *.jpg *.bmp *.jpeg)"));
-    QDir dir;
-    dir.mkpath(str+"pixel-database/Profile_pics");
-    QString new_name = ui->username->text();
-    QProcess::execute("copy_uploaded.sh "+image_file+" pixel-database/Profile_pics""/"+new_name);
-    QDir::setCurrent(str+"/pixel-database");
-    QPixmap pic(image_file);
-    ui->profile_pic->setPixmap(pic.scaled(ui->profile_pic->width(),ui->profile_pic->height(),Qt::KeepAspectRatio));
-}

@@ -1,6 +1,8 @@
 #include "search_page.h"
 #include "ui_search_page.h"
 #include <QDir>
+#include <QtConcurrent/QtConcurrent>
+
 Search_Page::Search_Page(char username[16],QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Search_Page)
@@ -9,7 +11,7 @@ Search_Page::Search_Page(char username[16],QWidget *parent) :
     ui->setupUi(this);
     ui->make_friend_button->hide();
     ui->view_profile_button->hide();
-    ui->display_profile_label->hide();
+    //ui->display_profile_label->hide();
     ui->display_username_label->hide();
 }
 
@@ -21,49 +23,49 @@ Search_Page::~Search_Page()
 
 void Search_Page::on_home_clicked()
 {
-    HomePage H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(1);
 }
 
 void Search_Page::on_search_clicked()
 {
-    Search_Page H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(2);
 }
 
 void Search_Page::on_cloud_clicked()
 {
-    Uploadpage H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(3);
 }
 
 void Search_Page::on_notification_clicked()
 {
-    Notifications_Page H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(4);
 }
 
 void Search_Page::on_user_clicked()
 {
-    User_Page H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(5);
 }
 
+void files(int action,QString user)
+{
+    if(action==1)
+    {
+        QProcess::execute("skicka download pixel-database/"+user+"/Request.txt" + " Request.txt");
+        QProcess::execute("skicka download pixel-database/"+user+"/notification.txt" + " notification.txt");
+    }
+    else
+    {
+        QProcess::execute("skicka upload Request.txt pixel-database/"+user+"/Request.txt");
+        QProcess::execute("skicka upload notification.txt pixel-database/"+user+"/notification.txt");
+    }
+}
 
-void Search_Page::on_make_friend_button_clicked()
+void Search_Page::send_notification()
 {
     QString str = QDir::homePath();
-    QDir::setCurrent(str + "/pixel-database/"+B.get_username());
+    QDir::setCurrent(str + "/pixel-database");//+B.get_username());
+    //ui->make_friend_button->setText("Sending...");
+    files(1,B.get_username());
     FILE *fp;
     fp=fopen("Request.txt","a");
     fprintf(fp,"%s\n",A.get_username());
@@ -71,6 +73,14 @@ void Search_Page::on_make_friend_button_clicked()
     fp=fopen("notification.txt","a");
     fprintf(fp,"%s has sent you a request\n",A.get_username());
     fclose(fp);
+    files(2,B.get_username());
+    remove("Request.txt");
+    remove("notification.txt");
+}
+
+void Search_Page::on_make_friend_button_clicked()
+{
+    QtConcurrent::run(this,&Search_Page::send_notification);
     QMessageBox::information(this,"Click Ok to continue","Request Sent");
     ui->make_friend_button->hide();
 }
@@ -102,17 +112,18 @@ void Search_Page::on_search_button_clicked()
     if(user_found_status==1)
     {
         ui->view_profile_button->hide();
-        ui->display_profile_label->show();
+        //ui->display_profile_label->show();
         ui->display_username_label->show();
-        int img_count;
+        //int img_count;
         int friend_found_status=0;
         FILE *fptr;
-        fptr = fopen("friends.dat","ab+");
-        Account temp_read;
+        QDir::setCurrent(QDir::homePath()+"/pixel-database/"+A.get_username());
+        fptr = fopen("friends.txt","a+");
+        char temp_read[16];
         rewind(fptr);
-        while(fscanf(fp,"%s%d",input_username,&img_count)!=EOF)
+        while(fscanf(fp,"%s",temp_read)!=EOF)
         {
-            if(strcmp(input_username,temp_read.get_username())==0)
+            if(strcmp(input_username,temp_read)==0)
             {
                 friend_found_status=1;
                 break;
@@ -133,6 +144,8 @@ void Search_Page::on_search_button_clicked()
         {
             ui->make_friend_button->hide();
         }
+        ui->view_profile_button->show();
+        QDir::setCurrent(QDir::homePath()+"/pixel-database");
     }
     else
     {

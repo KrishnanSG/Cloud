@@ -1,22 +1,33 @@
-#include "homepage.h"
+/*#include "homepage.h"
 #include "search_page.h"
 #include "uploadpage.h"
-#include "notifications_page.h"
 #include "user_page.h"
+*/
+#include "notifications_page.h"
 #include "ui_notifications_page.h"
 #include <QFile>
 #include <QDir>
 #include <QMessageBox>
+#include <QProcess>
+#include <QtConcurrent/QtConcurrent>
+
+void put_files(QString local,QString remote)      // for files
+{
+    QProcess::execute("skicka upload "+local+ " pixel-database/"+remote);
+}
+
 
 Notifications_Page::Notifications_Page(char username[16],QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Notifications_Page)
 {
     ui->setupUi(this);
-    //ui->textEdit->setText("2019/03/03 12:36:30 - Harry Hunt uploaded 5 pictures\n2019/03/03 11:12:50 - Krish525 uploaded 10 pictures");
     ui->display_notifications->setReadOnly(true);
     A.input(username);
     QString str = QDir::homePath();
+    QDir::setCurrent(str+"/pixel-database");
+    //download_files(QString("pixel-database/"+QString(A.get_username())+"/Request.txt"),QString("Request.txt"));
+    //download_files(QString("pixel-database/"+QString(A.get_username())+"/notification.txt"),QString("notification.txt"));
     QDir::setCurrent(str + "/pixel-database/"+A.get_username());
     QString filename="notification.txt";
     QFile file(filename);
@@ -30,20 +41,21 @@ Notifications_Page::Notifications_Page(char username[16],QWidget *parent) :
     ui->display_notifications->setPlainText(text);
     file.close();
     qDebug()<<text;
-    QDir::setCurrent(str + "/pixel-database/"+A.get_username());
     FILE *fp;
     fp=fopen("Request.txt","r");
     char requested_user[16];
+    strcpy(requested_user,"");
     fscanf(fp,"%s",requested_user);
     fclose(fp);
-    QString Temp=requested_user;
-    if(strcmp(requested_user,"")==0){
+    if(strcmp(requested_user,"")==0)
+    {
+        //ui->display_profile->hide();
         ui->display_username->hide();
-        ui->display_profile->hide();}
-    ui->display_username->setText(Temp);
+        ui->Accept_Request_Button->hide();
+        ui->Delete_Request->hide();
+    }
+    ui->display_username->setText(QString(requested_user));
     file.close();
-    qDebug()<<text;
-    qDebug()<<Temp;
     QDir::setCurrent(str + "/pixel-database");
 }
 
@@ -55,46 +67,48 @@ Notifications_Page::~Notifications_Page()
 
 void Notifications_Page::on_home_clicked()
 {
-    HomePage H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(1);
 }
 
 void Notifications_Page::on_search_clicked()
 {
-    Search_Page H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(2);
 }
 
 void Notifications_Page::on_cloud_clicked()
 {
-    Uploadpage H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(3);
 }
 
 void Notifications_Page::on_notification_clicked()
 {
-    Notifications_Page H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(4);
 }
 
 void Notifications_Page::on_user_clicked()
 {
-    User_Page H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(5);
 }
 
-void Notifications_Page::on_Accept_Request_Button_clicked()
+void extract_files(int action,QString user)
 {
+    if(action==1)
+    {
+        qDebug()<<"In Download Phase"<<" "<<user<<" "<<QDir::currentPath();
+        QProcess::execute("skicka download pixel-database/"+user+"/friends.txt" + " friends.txt");
+        QProcess::execute("skicka download pixel-database/"+user+"/notification.txt" + " notification.txt");
+    }
+    else
+    {
+        qDebug()<<"In Upload Phase"<<" "<<user <<" "<<QDir::currentPath();
+        QProcess::execute("skicka upload friends.txt pixel-database/"+user+"/friends.txt");
+        QProcess::execute("skicka upload notification.txt pixel-database/"+user+"/notification.txt");
+    }
+}
+
+void Notifications_Page::request_accepted()
+{
+    qDebug()<<"In request accepted";
     FILE *fp;
     QString str = QDir::homePath();
     QDir::setCurrent(str + "/pixel-database/"+A.get_username());
@@ -133,26 +147,44 @@ void Notifications_Page::on_Accept_Request_Button_clicked()
     fclose(fptr);
     remove("Request.txt");
     rename("Data.txt","Request.txt");
-    fp=fopen("notification.txt","a+");
-    fptr=fopen("Data.txt","w");
-    fscanf(fp,"%s",notification_string);
-    while(fscanf(fp,"%s",notification_string)!=EOF)
-    {
-        fprintf(fptr,"%s\n",notification_string);
-    }
+    fp=fopen("notification.txt","w");
     fclose(fp);
-    fclose(fptr);
-    remove("notification.txt");
-    rename("Data.txt","notification.txt");
+
+    qDebug()<<"After Message";
+    qDebug()<<QDir::currentPath();
+    //qDebug()<<"Extract for Upload"
+    //------Sending to another user ------------
+    //ui->make_friend_button->setText("Sending...");
+    QDir::setCurrent(str + "/pixel-database/");
+    QtConcurrent::run(put_files,QString(A.get_username())+"/Request.txt",QString(A.get_username())+"/Request.txt");
+    QtConcurrent::run(put_files,QString(A.get_username())+"/notification.txt",QString(A.get_username())+"/notification.txt");
+    QtConcurrent::run(put_files,QString(A.get_username())+"/friends.txt",QString(A.get_username())+"/friends.txt");
     QMessageBox::information(this,"The request has been accepted","Accepted");
-    QDir::setCurrent(str + "/pixel-database");
-    Notifications_Page H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    extract_files(1,requested_user);
+    fp=fopen("friends.txt","a");
+    fprintf(fp,"%s\n",A.get_username());
+    fclose(fp);
+    fp=fopen("notification.txt","a");
+    fprintf(fp,"%s has accepted your request\n",A.get_username());
+    fclose(fp);
+    qDebug()<<"Ex for Upl";
+    extract_files(2,requested_user);
+    remove("friends.txt");
+    remove("notification.txt");
+    //-----------------
 }
 
-void Notifications_Page::on_Delete_Request_clicked()
+void Notifications_Page::on_Accept_Request_Button_clicked()
+{
+    qDebug()<<"In Accept Request";
+    QtConcurrent::run(this,&Notifications_Page::request_accepted);
+    /*Notifications_Page H(A.get_username());
+    H.show();
+    this->close();
+    H.exec();*/
+}
+
+void Notifications_Page::request_declined()
 {
     int file_empty_status=0;
     QString str = QDir::homePath();
@@ -160,46 +192,41 @@ void Notifications_Page::on_Delete_Request_clicked()
     char requested_users_name[16];
     char notification_string[100];
     FILE *fp;
-    fp=fopen("notification.txt","a+");
-    FILE *fptr=fopen("Data.txt","w");
-    fgets(notification_string,100, fp);
-    qDebug()<<notification_string;
-    while(1)
-    {
-       if (fgets(notification_string,100, fp) == NULL){
-           file_empty_status=1;
-           ui->display_profile->hide();
-           ui->display_username->hide();
-           ui->Accept_Request_Button->hide();
-           ui->Delete_Request->hide();
-            break;
-       }
-       fprintf(fptr,"%s",notification_string);
-    }
-    fclose(fp);
-    fclose(fptr);
-    remove("notification.txt");
-    rename("Data.txt","notification.txt");
     fp=fopen("Request.txt","a+");
-    fptr=fopen("Data.txt","w");
-    fgets(requested_users_name,16, fp);
-    while(1)
+    FILE *fptr=fopen("Data.txt","w");
+    if(fgets(requested_users_name,16, fp)==NULL)
+    {
+        fprintf(fp,"");
+        file_empty_status=1;
+    }
+    while(file_empty_status==0)
     {
         if (fgets(requested_users_name,16, fp) == NULL)
         {
+            file_empty_status=1;
+            qDebug()<<requested_users_name;
             break;
         }
         fprintf(fptr,"%s",requested_users_name);
-        qDebug()<<requested_users_name<<"Hi";
     }
     fclose(fp);
     fclose(fptr);
     remove("Request.txt");
     rename("Data.txt","Request.txt");
-
+    fp=fopen("notification.txt","w");
+    fclose(fp);
     QDir::setCurrent(str + "/pixel-database");
-    Notifications_Page H(A.get_username());
+    QtConcurrent::run(put_files,QString(A.get_username())+"/Request.txt",QString(A.get_username())+"/Request.txt");
+    QtConcurrent::run(put_files,QString(A.get_username())+"/notification.txt",QString(A.get_username())+"/notification.txt");
+    QMessageBox::warning(this,"Request Declined","You declined the request");
+    //done(4);
+}
+
+void Notifications_Page::on_Delete_Request_clicked()
+{
+    QtConcurrent::run(this,&Notifications_Page::request_declined);
+/*    Notifications_Page H(A.get_username());
     H.show();
     this->close();
-    H.exec();
+    H.exec();*/
 }

@@ -34,7 +34,8 @@ SOURCES += \
     homepage.cpp \
     notifications_page.cpp \
     user_page.cpp \
-    friends.cpp
+    friends.cpp \
+    controller.cpp
 
 HEADERS += \
         login_signup.h \
@@ -45,7 +46,8 @@ HEADERS += \
     homepage.h \
     notifications_page.h \
     user_page.h \
-    friends.h
+    friends.h \
+    controller.h
 
 FORMS += \
         login_signup.ui \

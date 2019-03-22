@@ -1,8 +1,8 @@
-#include "homepage.h"
+/*#include "homepage.h"
 #include "search_page.h"
-#include "uploadpage.h"
 #include "notifications_page.h"
-#include "user_page.h"
+#include "user_page.h"*/
+#include "uploadpage.h"
 #include "ui_uploadpage.h"
 #include "QProcess"
 #include <QFileDialog>
@@ -10,6 +10,7 @@
 #include <QDir>
 #include "QDebug"
 #include <QDateTime>
+#include <QtConcurrent/QtConcurrent>
 
 Uploadpage::Uploadpage(char username[16], QWidget *parent) :
     QDialog(parent),
@@ -24,44 +25,38 @@ Uploadpage::~Uploadpage()
     delete ui;
 }
 
+void upload_img(QString path,QString user)
+{
+    QProcess::execute("skicka upload "+user+"/"+path+" pixel-database/"+user);
+}
+
+void upload_img(QString path)
+{
+    QProcess::execute("skicka upload "+path+" pixel-database/");
+}
 void Uploadpage::on_home_clicked()
 {
-    HomePage H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(1);
 }
 
 void Uploadpage::on_search_clicked()
 {
-    Search_Page H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(2);
 }
 
 void Uploadpage::on_cloud_clicked()
 {
-    Uploadpage H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(3);
 }
 
 void Uploadpage::on_notification_clicked()
 {
-    Notifications_Page H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(4);
 }
 
 void Uploadpage::on_user_clicked()
 {
-    User_Page H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(5);
 }
 
 void Uploadpage::on_select_image_clicked()
@@ -69,11 +64,11 @@ void Uploadpage::on_select_image_clicked()
     QString str = QDir::homePath();
     QDir::setCurrent(str);
     image_file = QFileDialog::getOpenFileName(this,tr("Select Image"),QDir::homePath(),tr("Images (*.png *.jpg *.bmp *.jpeg)"));
-    QString new_filename = QDateTime::currentDateTime().toString("dd-MM-hh:mm:ss");
-    QProcess::execute("copy_uploaded.sh "+image_file+" pixel-database/"+QString(A.get_username())+"/"+new_filename);
-    qDebug()<<QDateTime::currentDateTime().toString("dd-MM-hh:mm:ss");
+    img_path = QDateTime::currentDateTime().toString("ddMMhhmmss_")+QString(A.get_username());
+    QProcess::execute("copy_uploaded.sh "+image_file+" pixel-database/"+QString(A.get_username())+"/"+img_path);
+    qDebug()<<QString(A.get_username());
     QDir::setCurrent(str+"/pixel-database");
-    QPixmap picture(QString(A.get_username())+"/"+new_filename);
+    QPixmap picture(QString(A.get_username())+"/"+img_path);
     ui->display_image->setPixmap(picture.scaled(ui->display_image->width(),ui->display_image->height(),Qt::KeepAspectRatio));
 }
 void Uploadpage::on_picture_upload_clicked()
@@ -84,7 +79,8 @@ void Uploadpage::on_picture_upload_clicked()
     }
     else
     {
-        // QProcess::execute("skicka upload "+image_file+" pixel-database/"+QString(A.get_username()));
+        QDir::setCurrent(QDir::homePath()+"/pixel-database/");
+        QtConcurrent::run(upload_img,img_path,A.get_username());
         FILE *upload_file;
         upload_file = fopen("database.dat","rb+");
         Account temp_read;
@@ -103,6 +99,8 @@ void Uploadpage::on_picture_upload_clicked()
                 break;
             }
         }
+        QMessageBox::information(this,"Uploaded","Image Uploaded");
         fclose(upload_file);
+        QtConcurrent::run(upload_img,QString("database.dat"));
     }
 }

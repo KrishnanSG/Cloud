@@ -1,7 +1,8 @@
-#include "homepage.h"
+/*#include "homepage.h"
 #include "search_page.h"
 #include "uploadpage.h"
 #include "notifications_page.h"
+*/
 #include "user_page.h"
 #include "ui_user_page.h"
 #include "friends.h"
@@ -26,6 +27,7 @@ User_Page::User_Page(char username[16],QWidget *parent) :
     image_path_vector.shrink_to_fit();
     int len = image_path_vector.length();
     ui->setupUi(this);
+    ui->display_username->setText(A.get_username());
     if(len>3)
     {
         current_pic=len-4;
@@ -50,50 +52,35 @@ User_Page::~User_Page()
 
 void User_Page::on_home_clicked()
 {
-    HomePage H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(1);
 }
 
 void User_Page::on_search_clicked()
 {
-    Search_Page H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(2);
 }
 
 void User_Page::on_cloud_clicked()
 {
-    Uploadpage H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(3);
 }
 
 void User_Page::on_notification_clicked()
 {
-    Notifications_Page H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(4);
 }
 
 void User_Page::on_user_clicked()
 {
-    User_Page H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(5);
 }
 
 void User_Page::on_friends_clicked()
-{
+{/*
     Friends H(A.get_username());
     H.show();
     this->close();
-    H.exec();
+    H.exec();*/
 }
 
 void User_Page::on_prev_pic_clicked()

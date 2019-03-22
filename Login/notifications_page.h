@@ -35,6 +35,8 @@ private slots:
 private:
     Ui::Notifications_Page *ui;
     Account A;
+    void request_accepted();
+    void request_declined();
 };
 
 #endif // NOTIFICATIONS_PAGE_H

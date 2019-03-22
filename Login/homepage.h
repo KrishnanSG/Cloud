@@ -40,8 +40,10 @@ private:
         Ui::HomePage *ui;
         Account A;
         QVector <QString> image_path_vector;
+        QVector <QString> image_username;
         int current_pic;
-    //Ui::HomePage *ui;
+        //Ui::HomePage *ui;
+        void load_friends_data();
 };
 
 #endif // HOMEPAGE_H

@@ -26,8 +26,6 @@ private slots:
 
     void stop_animation();
 
-    void on_upload_clicked();
-
 private:
     Ui::Login_SignUp *ui;
     Loading L;

@@ -1,12 +1,33 @@
 #include "homepage.h"
-#include "search_page.h"
-#include "uploadpage.h"
-#include "notifications_page.h"
-#include "user_page.h"
 #include "ui_homepage.h"
 #include <QPixmap>
 #include <QDebug>
 #include <QProcess>
+#include <QtConcurrent/QtConcurrent>
+
+int download_friend(QString name)      // for files
+{
+    QProcess::execute("skicka download pixel-database/"+name+" "+name);
+    return 0;
+}
+
+void HomePage::load_friends_data()
+{
+    FILE *friends_list;
+    QDir::setCurrent(QDir::homePath()+"/pixel-database/"+QString(A.get_username()));
+    char friends_folder[10];
+    char t[16];
+    strcpy(t,A.get_username());
+    friends_list = fopen("friends.txt","r");
+    while(fscanf(friends_list,"%s",friends_folder)!=EOF)
+    {
+        QtConcurrent::run(download_friend,QString(friends_folder));
+        qDebug() << friends_folder << " Downloaded";
+    }
+    fclose(friends_list);
+    QDir::setCurrent(QDir::homePath()+"/pixel-database/");
+    /// starts downloading friends data
+}
 
 HomePage::HomePage(char username[16], QWidget *parent) :
     QDialog(parent),
@@ -16,17 +37,10 @@ HomePage::HomePage(char username[16], QWidget *parent) :
     A.input(username);
     FILE *friends_list;
     char friends_folder[10];
-    char t[16];
-    strcpy(t,A.get_username());
     QDir::setCurrent(QDir::homePath()+"/pixel-database/"+QString(A.get_username()));
     friends_list = fopen("friends.txt","r");
     QDir dir;
-    if(dir.exists(QDir::homePath() + "/pixel-database/Feedpage_pics"))
-    {
-        QDir deleting(QDir::homePath() + "/pixel-database/Feedpage_pics");
-        deleting.removeRecursively();
-    }
-    QDir::setCurrent(QDir::homePath()+"/pixel-database");
+    load_friends_data();
     dir.mkpath(QDir::homePath()+"/pixel-database/"+QString("Feedpage_pics"));
     while(fscanf(friends_list,"%s",friends_folder)!=EOF)
     {
@@ -41,6 +55,7 @@ HomePage::HomePage(char username[16], QWidget *parent) :
         if(var.isFile())
         {
             image_path_vector.append(var.absoluteFilePath());
+            image_username.append(var.fileName().mid(11));
         }
     }
     image_path_vector.shrink_to_fit();
@@ -50,6 +65,7 @@ HomePage::HomePage(char username[16], QWidget *parent) :
         current_pic=len-4;
         qDebug()<<len;
         QPixmap pic(image_path_vector[current_pic]);
+        ui->display_username->setText(image_username[current_pic]);
         ui->display->setPixmap(pic.scaled(ui->display->width(),ui->display->height(),Qt::KeepAspectRatio));
         ui->prev_pic->setEnabled(false);
     }
@@ -70,42 +86,27 @@ HomePage::~HomePage()
 
 void HomePage::on_home_clicked()
 {
-    HomePage H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(1);
 }
 
 void HomePage::on_search_clicked()
 {
-    Search_Page H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(2);
 }
 
 void HomePage::on_cloud_clicked()
 {
-    Uploadpage H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(3);
 }
 
 void HomePage::on_notification_clicked()
 {
-    Notifications_Page H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(4);
 }
 
 void HomePage::on_user_clicked()
 {
-    User_Page H(A.get_username());
-    H.show();
-    this->close();
-    H.exec();
+    done(5);
 }
 
 void HomePage::on_prev_pic_clicked()
@@ -127,6 +128,7 @@ void HomePage::on_prev_pic_clicked()
         ui->next_pic->setEnabled(true);
     }
     QPixmap pic(image_path_vector[current_pic]);
+    ui->display_username->setText(image_username[current_pic]);
     ui->display->setPixmap(pic.scaled(ui->display->width(),ui->display->height(),Qt::KeepAspectRatio));
 }
 
@@ -148,5 +150,6 @@ void HomePage::on_next_pic_clicked()
         ui->next_pic->setEnabled(true);
     }
     QPixmap pic(image_path_vector[current_pic]);
+    ui->display_username->setText(image_username[current_pic]);
     ui->display->setPixmap(pic.scaled(ui->display->width(),ui->display->height(),Qt::KeepAspectRatio));
 }
