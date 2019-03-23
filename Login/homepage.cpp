@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QProcess>
 #include <QtConcurrent/QtConcurrent>
+#include <QMessageBox>
 
 int download_friend(QString name)      // for files
 {
@@ -22,7 +23,6 @@ void HomePage::load_friends_data()
     while(fscanf(friends_list,"%s",friends_folder)!=EOF)
     {
         QtConcurrent::run(download_friend,QString(friends_folder));
-        qDebug() << friends_folder << " Downloaded";
     }
     fclose(friends_list);
     QDir::setCurrent(QDir::homePath()+"/pixel-database/");
@@ -40,15 +40,17 @@ HomePage::HomePage(char username[16], QWidget *parent) :
     QDir::setCurrent(QDir::homePath()+"/pixel-database/"+QString(A.get_username()));
     friends_list = fopen("friends.txt","r");
     QDir dir;
-    load_friends_data();
     dir.mkpath(QDir::homePath()+"/pixel-database/"+QString("Feedpage_pics"));
+    dir.setPath(QDir::homePath()+"/pixel-database/"+QString("Feedpage_pics"));
+    static int prev_count=0;
+    load_friends_data();
     while(fscanf(friends_list,"%s",friends_folder)!=EOF)
     {
         QProcess::execute("copy_pics.sh "+QString(friends_folder)+QString(" Feedpage_pics"));
     }
     fclose(friends_list);
 
-    dir.setPath(QDir::homePath()+"/pixel-database/"+QString("Feedpage_pics"));
+
     //-
     QFileInfo var;
     foreach (var,dir.entryInfoList()){
@@ -59,6 +61,19 @@ HomePage::HomePage(char username[16], QWidget *parent) :
         }
     }
     image_path_vector.shrink_to_fit();
+    int new_count=image_path_vector.length();
+    if(new_count-prev_count)
+    {
+        show();
+        if(new_count-prev_count==1)
+            QMessageBox::information(this,"New Picture","Your friend has uploaded a picture");
+        else
+            QMessageBox::information(this,"New Pictures","Your friends have uploaded "+QString(new_count-prev_count+48)+ " pictures");
+    }
+    qDebug() <<QDir::currentPath()<<" FeedPage New Images:"<<new_count-prev_count;
+    QDir::setCurrent(QDir::homePath()+"/pixel-database");
+    if(new_count-prev_count)
+        prev_count=new_count;
     int len = image_path_vector.length()+3;
     if(len>3)
     {

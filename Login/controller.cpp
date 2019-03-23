@@ -9,6 +9,15 @@ void get_files(QString remote,QString local)      // for files
     QProcess::execute("skicka download pixel-database/"+remote+" "+local);
 }
 
+void Controller::send_image_notification()
+{
+    FILE *fp;
+    QDir::setCurrent(QDir::homePath()+"/pixel-database/"+QString(current_user));
+    fp = fopen("friends.txt","r");
+    fclose(fp);
+    QDir::setCurrent(QDir::homePath()+"/pixel-database");
+}
+
 Controller::Controller(char username[16])
 {
     page=5;

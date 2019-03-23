@@ -13,6 +13,7 @@ public:
 private:
     int page;
     char current_user[16];
+    void send_image_notification();
 };
 
 #endif // CONTROLLER_H

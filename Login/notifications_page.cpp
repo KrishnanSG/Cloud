@@ -21,6 +21,7 @@ Notifications_Page::Notifications_Page(char username[16],QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Notifications_Page)
 {
+    FILE *fp;
     ui->setupUi(this);
     ui->display_notifications->setReadOnly(true);
     A.input(username);
@@ -28,6 +29,7 @@ Notifications_Page::Notifications_Page(char username[16],QWidget *parent) :
     QDir::setCurrent(str+"/pixel-database");
     //download_files(QString("pixel-database/"+QString(A.get_username())+"/Request.txt"),QString("Request.txt"));
     //download_files(QString("pixel-database/"+QString(A.get_username())+"/notification.txt"),QString("notification.txt"));
+    Account Temp_read;
     QDir::setCurrent(str + "/pixel-database/"+A.get_username());
     QString filename="notification.txt";
     QFile file(filename);
@@ -41,7 +43,7 @@ Notifications_Page::Notifications_Page(char username[16],QWidget *parent) :
     ui->display_notifications->setPlainText(text);
     file.close();
     qDebug()<<text;
-    FILE *fp;
+    //FILE *fp;
     fp=fopen("Request.txt","r");
     char requested_user[16];
     strcpy(requested_user,"");
@@ -121,10 +123,12 @@ void Notifications_Page::request_accepted()
     fp = fopen("database.dat","ab+");
     Account temp;
     rewind(fp);
+    int img_count=0;
     while(fread(&temp,sizeof (temp),1,fp))
     {
         if(strcmp(requested_user,temp.get_username())==0)
         {
+            img_count=temp.get_image_count();
             break;
         }
     }
@@ -133,7 +137,7 @@ void Notifications_Page::request_accepted()
     QDir::setCurrent(str + "/pixel-database/"+A.get_username());
     fclose(fp);
     fp=fopen("friends.txt","a+");
-    fprintf(fp,"%s\n",requested_user);
+    fprintf(fp,"%s %d\n",requested_user,img_count);
     //fwrite((&temp,sizeof(temp)),1,fp);
     fclose(fp);
     fp=fopen("Request.txt","a+");
