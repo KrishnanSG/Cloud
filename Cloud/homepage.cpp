@@ -82,13 +82,13 @@ HomePage::HomePage(char username[16], QWidget *parent) :
         QPixmap pic(image_path_vector[current_pic]);
         ui->display_username->setText(image_username[current_pic]);
         ui->display->setPixmap(pic.scaled(ui->display->width(),ui->display->height(),Qt::KeepAspectRatio));
-        ui->prev_pic->setEnabled(false);
+        ui->prev_pic->hide();
     }
     else
     {
         ui->display->setText("\tNo Images Uploaded");
-        ui->prev_pic->setEnabled(false);
-        ui->next_pic->setEnabled(false);
+        ui->prev_pic->hide();
+        ui->next_pic->hide();
     }
     //-
 }
@@ -134,13 +134,13 @@ void HomePage::on_prev_pic_clicked()
     }
     if(current_pic==len-4)
     {
-        ui->prev_pic->setEnabled(false);
-        ui->next_pic->setEnabled(true);
+        ui->prev_pic->hide();
+        ui->next_pic->show();
     }
     else
     {
-        ui->prev_pic->setEnabled(true);
-        ui->next_pic->setEnabled(true);
+        ui->prev_pic->show();
+        ui->next_pic->show();
     }
     QPixmap pic(image_path_vector[current_pic]);
     ui->display_username->setText(image_username[current_pic]);
@@ -156,13 +156,13 @@ void HomePage::on_next_pic_clicked()
     }
     if(current_pic==0)
     {
-        ui->next_pic->setEnabled(false);
-        ui->prev_pic->setEnabled(true);
+        ui->next_pic->hide();
+        ui->prev_pic->show();
     }
     else
     {
-        ui->prev_pic->setEnabled(true);
-        ui->next_pic->setEnabled(true);
+        ui->prev_pic->show();
+        ui->next_pic->show();
     }
     QPixmap pic(image_path_vector[current_pic]);
     ui->display_username->setText(image_username[current_pic]);
