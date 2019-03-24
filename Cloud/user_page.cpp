@@ -10,7 +10,7 @@
 #include <QFile>
 #include <QDebug>
 
-User_Page::User_Page(char username[16],QWidget *parent) :
+User_Page::User_Page(char username[16],bool mode,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::User_Page)
 {
@@ -41,6 +41,11 @@ User_Page::User_Page(char username[16],QWidget *parent) :
         ui->display->setText("\tNo Images Uploaded");
         ui->prev_pic->hide();
         ui->next_pic->hide();
+    }
+    // mode is true implies it is open for friend's view profile
+    if(mode)
+    {
+        ui->frame->hide();
     }
 }
 

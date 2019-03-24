@@ -58,7 +58,7 @@ Controller::Controller(char username[16])
         }
         else if(page==5)
         {
-            User_Page UP(current_user);
+            User_Page UP(current_user,false);
             UP.show();
             UP.exec();
             page=UP.result();

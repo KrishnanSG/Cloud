@@ -35,6 +35,8 @@ private slots:
 
     void on_make_friend_button_clicked();
 
+    void on_view_profile_button_clicked();
+
 private:
     Ui::Search_Page *ui;
     Account A,B;

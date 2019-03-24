@@ -15,7 +15,7 @@ class User_Page : public QDialog
     Q_OBJECT
 
 public:
-    explicit User_Page(char username[16],QWidget *parent = nullptr);
+    explicit User_Page(char username[16],bool mode,QWidget *parent = nullptr);
     ~User_Page();
 
 private slots:

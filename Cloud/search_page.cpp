@@ -1,4 +1,5 @@
 #include "search_page.h"
+#include "user_page.h"
 #include "ui_search_page.h"
 #include <QDir>
 #include <QtConcurrent/QtConcurrent>
@@ -136,19 +137,28 @@ void Search_Page::on_search_button_clicked()
         if(friend_found_status==1)
         {
             ui->make_friend_button->hide();
+            ui->view_profile_button->show();
         }
-        else {
-        ui->make_friend_button->show();
+        else
+        {
+            ui->make_friend_button->show();
+            ui->view_profile_button->hide();
         }
         if(strcmp(input_username,A.get_username())==0)
         {
             ui->make_friend_button->hide();
         }
-        ui->view_profile_button->show();
         QDir::setCurrent(QDir::homePath()+"/pixel-database");
     }
     else
     {
         QMessageBox::critical(this,"Invalid Username","Username does not exist");
     }
+}
+
+void Search_Page::on_view_profile_button_clicked()
+{
+    User_Page U(B.get_username(),true);
+    U.show();
+    U.exec();
 }
