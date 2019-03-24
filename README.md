@@ -1,12 +1,12 @@
-# Project Cloud
+# Cloud
 
 **Project Completed on 24 March 2019**
 
-**Major Contributors**
+**Authors**
 
-**1.Krishnan S G**
+**Krishnan S G**    (https://github.com/KrishnanSG)
 
-**2.Hariharan S V**
+**Hariharan S V**  (https://github.com/Hariharan20)
 
 
 A Desktop application similar to instagram with a simple and faster GUI.
