@@ -260,25 +260,35 @@ background-color:rgb(52, 152, 219);
     <rect>
      <x>978</x>
      <y>300</y>
-     <width>51</width>
-     <height>51</height>
+     <width>61</width>
+     <height>81</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+	border-image: url(:/up-arrow.png);
+}</string>
+   </property>
    <property name="text">
-    <string>UP</string>
+    <string/>
    </property>
   </widget>
   <widget class="QPushButton" name="next_pic">
    <property name="geometry">
     <rect>
      <x>980</x>
-     <y>440</y>
-     <width>51</width>
-     <height>51</height>
+     <y>430</y>
+     <width>61</width>
+     <height>71</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+	border-image: url(:/down-arrow.png);
+}</string>
+   </property>
    <property name="text">
-    <string>Down</string>
+    <string/>
    </property>
   </widget>
   <zorder>frame</zorder>

@@ -123,7 +123,7 @@ void Notifications_Page::request_accepted()
     fp = fopen("database.dat","ab+");
     Account temp;
     rewind(fp);
-    int img_count=0;
+    /*int img_count=0;
     while(fread(&temp,sizeof (temp),1,fp))
     {
         if(strcmp(requested_user,temp.get_username())==0)
@@ -131,13 +131,13 @@ void Notifications_Page::request_accepted()
             img_count=temp.get_image_count();
             break;
         }
-    }
+    }*/
     char requested_users_name[16];
-    char notification_string[100];
+    //char notification_string[100];
     QDir::setCurrent(str + "/pixel-database/"+A.get_username());
     fclose(fp);
     fp=fopen("friends.txt","a+");
-    fprintf(fp,"%s %d\n",requested_user,img_count);
+    fprintf(fp,"%s\n",requested_user);
     //fwrite((&temp,sizeof(temp)),1,fp);
     fclose(fp);
     fp=fopen("Request.txt","a+");
@@ -194,7 +194,7 @@ void Notifications_Page::request_declined()
     QString str = QDir::homePath();
     QDir::setCurrent(str + "/pixel-database/"+A.get_username());
     char requested_users_name[16];
-    char notification_string[100];
+    //char notification_string[100];
     FILE *fp;
     fp=fopen("Request.txt","a+");
     FILE *fptr=fopen("Data.txt","w");

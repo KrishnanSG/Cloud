@@ -13,5 +13,8 @@
         <file>home.png</file>
         <file>notification.png</file>
         <file>download.gif</file>
+        <file>together.png</file>
+        <file>down-arrow.png</file>
+        <file>up-arrow.png</file>
     </qresource>
 </RCC>

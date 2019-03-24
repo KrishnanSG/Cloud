@@ -18,7 +18,7 @@ public:
 
 private slots:
 
-    void on_home_clicked();
+/*    void on_home_clicked();
 
     void on_search_clicked();
 
@@ -26,7 +26,7 @@ private slots:
 
     void on_notification_clicked();
 
-    void on_user_clicked();
+    void on_user_clicked();*/
 
 private:
     Ui::Friends *ui;

@@ -10,8 +10,24 @@ Friends::Friends(char username[16],QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Friends)
 {
+    Account A;
+    A.input(username);
+    QString str = QDir::homePath();
+    QDir::setCurrent(str + "/pixel-database/"+A.get_username());
     ui->setupUi(this);
     A.input(username);
+    QString filename="friends.txt";
+    QFile file(filename);
+    QTextStream in(&file);
+    if(!file.open(QIODevice::ReadOnly)){
+        QMessageBox::warning(this,"..","File not open");
+        return;
+    }
+    QString text=in.readAll();
+    ui->plainTextEdit->setPlainText(text);
+    file.close();
+    qDebug()<<text;
+    QDir::setCurrent(str+"/pixel-database");
 }
 
 Friends::~Friends()
@@ -19,7 +35,7 @@ Friends::~Friends()
     delete ui;
 }
 
-void Friends::on_home_clicked()
+/*void Friends::on_home_clicked()
 {
     HomePage H(A.get_username());
     H.show();
@@ -58,3 +74,4 @@ void Friends::on_user_clicked()
     this->close();
     H.exec();
 }
+*/

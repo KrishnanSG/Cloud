@@ -76,11 +76,11 @@ void User_Page::on_user_clicked()
 }
 
 void User_Page::on_friends_clicked()
-{/*
+{
     Friends H(A.get_username());
     H.show();
-    this->close();
-    H.exec();*/
+    //this->close();
+    H.exec();
 }
 
 void User_Page::on_prev_pic_clicked()
