@@ -1,10 +1,13 @@
 # Project Cloud
 
-**Project Completed on 24 March 2019
-  Major Contributors
-  1.Krishnan S G      
-  2.Hariharan S V
-**
+**Project Completed on 24 March 2019**
+
+**Major Contributors**
+
+**1.Krishnan S G**
+
+**2.Hariharan S V**
+
 
 A Desktop application similar to instagram with a simple and faster GUI.
 
