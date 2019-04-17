@@ -1,7 +1,7 @@
 #ifndef USER_PAGE_H
 #define USER_PAGE_H
 
-#include <QDialog>
+#include "homepage.h"
 #include <QPixmap>
 #include "account.h"
 #include <QVector>
@@ -10,15 +10,15 @@ namespace Ui {
 class User_Page;
 }
 
-class User_Page : public QDialog
+class User_Page : public HomePage
 {
     Q_OBJECT
 
 public:
-    explicit User_Page(char username[16],bool mode,QWidget *parent = nullptr);
+    explicit User_Page(char username[16], bool mode);
     ~User_Page();
 
-private slots:
+protected slots:
 
     void on_home_clicked();
 
@@ -30,17 +30,15 @@ private slots:
 
     void on_user_clicked();
 
-    void on_friends_clicked();
-
     void on_prev_pic_clicked();
 
     void on_next_pic_clicked();
 
+    void on_friends_clicked();
+
 private:
     Ui::User_Page *ui;
     Account A;
-    QVector <QString> image_path_vector;
-    int current_pic;
 };
 
 #endif // USER_PAGE_H

@@ -6,6 +6,16 @@
 #include "notifications_page.h"
 #include "user_page.h"
 
+
+/*
+  This class called Controller is important for any GUI application
+  based on MVC model.
+ *  Model      - where data is recieved and manuplation takes place
+ *  View       - the ui files
+ *  Controller - joins Model with the View and controls logic
+                 based on user actions.
+ */
+
 class Controller
 {
 public:
@@ -13,7 +23,6 @@ public:
 private:
     int page;
     char current_user[16];
-    void send_image_notification();
 };
 
 #endif // CONTROLLER_H

@@ -1,6 +1,5 @@
 #ifndef HOMEPAGE_H
 #define HOMEPAGE_H
-
 #include <QDialog>
 #include <QObject>
 #include "account.h"
@@ -22,28 +21,30 @@ public:
 
 private slots:
 
-    void on_home_clicked();
+    virtual void on_home_clicked();
 
-    void on_search_clicked();
+    virtual void on_search_clicked();
 
-    void on_cloud_clicked();
+    virtual void on_cloud_clicked();
 
-    void on_notification_clicked();
+    virtual void on_notification_clicked();
 
-    void on_user_clicked();
+    virtual void on_user_clicked();
 
-    void on_prev_pic_clicked();
+    virtual void on_prev_pic_clicked();
 
-    void on_next_pic_clicked();
+    virtual void on_next_pic_clicked();
 
 private:
         Ui::HomePage *ui;
         Account A;
-        QVector <QString> image_path_vector;
         QVector <QString> image_username;
+        void create_feedpage_data();
+
+protected:
+
+        QVector <QString> image_path_vector;
         int current_pic;
-        //Ui::HomePage *ui;
-        void load_friends_data();
 };
 
 #endif // HOMEPAGE_H

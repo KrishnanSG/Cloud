@@ -30,7 +30,6 @@ private slots:
 
     void on_user_clicked();
 
-
     void on_select_image_clicked();
 
     void on_picture_upload_clicked();

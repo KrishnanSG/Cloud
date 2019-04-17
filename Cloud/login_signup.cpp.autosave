@@ -185,7 +185,6 @@ void Login_SignUp::on_login_clicked()
     fp.open("database.dat",std::ios::ate | std::ios::binary);
     Account temp;
     fp.seekg(0,std::ios::beg);
-
     while(fp.read((char*)&temp,sizeof (temp)))
     {
         if(strcmp(input_username,temp.get_username())==0)

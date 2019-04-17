@@ -31,7 +31,7 @@ private slots:
 
     void on_user_clicked();
 
-    void on_search_button_clicked();
+    void on_search_button_clicked(); // search user
 
     void on_make_friend_button_clicked();
 
@@ -40,8 +40,9 @@ private slots:
 private:
     Ui::Search_Page *ui;
     Account A,B;
+    // A-current_user B-the account to be searched
     QString username;
-    void send_notification();
+    void send_request();
 };
 
 #endif // SEARCH_PAGE_H
