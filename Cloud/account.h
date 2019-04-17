@@ -19,7 +19,6 @@ public:
     void add_image();
     void input(char [16]);
     void input(char[16],char[16]);
-  //  Account(char u[64],char p[64]);
     Account();
 };
 

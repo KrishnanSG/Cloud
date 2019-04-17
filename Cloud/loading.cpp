@@ -9,7 +9,9 @@ Loading::Loading(QWidget *parent) :
     ui->setupUi(this);
 
 }
-
+/*
+    This class is used for all loading animations
+ */
 void Loading::task_started(QString s)
 {
     ui->label_2->setText(s);

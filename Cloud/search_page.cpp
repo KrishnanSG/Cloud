@@ -3,6 +3,8 @@
 #include "ui_search_page.h"
 #include <QDir>
 #include <QtConcurrent/QtConcurrent>
+#include <fstream>
+#include <c++/7/ios>
 
 Search_Page::Search_Page(char username[16],QWidget *parent) :
     QDialog(parent),
@@ -12,7 +14,6 @@ Search_Page::Search_Page(char username[16],QWidget *parent) :
     ui->setupUi(this);
     ui->make_friend_button->hide();
     ui->view_profile_button->hide();
-    //ui->display_profile_label->hide();
     ui->display_username_label->hide();
 }
 
@@ -60,20 +61,22 @@ void files(int action,QString user)
         QProcess::execute("skicka upload notification.txt pixel-database/"+user+"/notification.txt");
     }
 }
-
-void Search_Page::send_notification()
+/*
+ for sending request we click the send_notification button
+and we adding our user name in the request list
+ */
+void Search_Page::send_request()
 {
     QString str = QDir::homePath();
-    QDir::setCurrent(str + "/pixel-database");//+B.get_username());
-    //ui->make_friend_button->setText("Sending...");
+    QDir::setCurrent(str + "/pixel-database");
     files(1,B.get_username());
-    FILE *fp;
-    fp=fopen("Request.txt","a");
-    fprintf(fp,"%s\n",A.get_username());
-    fclose(fp);
-    fp=fopen("notification.txt","a");
-    fprintf(fp,"%s has sent you a request\n",A.get_username());
-    fclose(fp);
+    std::fstream fp;
+    fp.open("Request.txt",std::ios::in | std::ios::ate);
+    fp<<A.get_username();
+    fp.close();
+    fp.open("notification.txt",std::ios::in | std::ios::ate);
+    fp<<A.get_username()<<" has sent you a request\n";
+    fp.close();
     files(2,B.get_username());
     remove("Request.txt");
     remove("notification.txt");
@@ -81,11 +84,14 @@ void Search_Page::send_notification()
 
 void Search_Page::on_make_friend_button_clicked()
 {
-    QtConcurrent::run(this,&Search_Page::send_notification);
+    QtConcurrent::run(this,&Search_Page::send_request);
     QMessageBox::information(this,"Click Ok to continue","Request Sent");
     ui->make_friend_button->hide();
 }
-
+/*
+ while searching the username is searched in the database file and
+shows the result
+ */
 void Search_Page::on_search_button_clicked()
 {
     int user_found_status=0;
@@ -94,11 +100,11 @@ void Search_Page::on_search_button_clicked()
     std::strcpy(input_username,input_user.toStdString().c_str());
     B.input(input_username);
     QDir::setCurrent(QDir::homePath()+"/pixel-database");
-    FILE *fp;
-    fp = fopen("database.dat","ab+");
+    std::fstream fp;
+    fp.open("database.dat",std::ios::in | std::ios::out |std::ios::binary);
     Account temp;
-    rewind(fp);
-    while(fread(&temp,sizeof (temp),1,fp))
+    fp.seekg(0,std::ios::beg);
+    while(fp.read( (char*) &temp  ,sizeof (temp)))
     {
         if(strcmp(input_username,temp.get_username())==0)
         {
@@ -109,20 +115,19 @@ void Search_Page::on_search_button_clicked()
             user_found_status=0;
         }
     }
-    fclose(fp);
+    fp.close();
     if(user_found_status==1)
     {
         ui->view_profile_button->hide();
         //ui->display_profile_label->show();
         ui->display_username_label->show();
-        //int img_count;
         int friend_found_status=0;
-        FILE *fptr;
+        std::fstream fptr;
         QDir::setCurrent(QDir::homePath()+"/pixel-database/"+A.get_username());
-        fptr = fopen("friends.txt","a+");
+        fptr.open("friends.txt",std::ios::in | std::ios::ate);
         char temp_read[16];
-        rewind(fptr);
-        while(fscanf(fp,"%s",temp_read)!=EOF)
+        fptr.seekg(0,std::ios::beg);
+        while(fptr>>temp_read)
         {
             if(strcmp(input_username,temp_read)==0)
             {
@@ -133,6 +138,7 @@ void Search_Page::on_search_button_clicked()
                 friend_found_status=0;
             }
         }
+        fptr.close();
         ui->display_username_label->setText(input_username);
         if(friend_found_status==1)
         {
@@ -155,7 +161,10 @@ void Search_Page::on_search_button_clicked()
         QMessageBox::critical(this,"Invalid Username","Username does not exist");
     }
 }
-
+/*
+ if we want to see the  profile we click the view profile and
+ the user_page of the user is shown
+ */
 void Search_Page::on_view_profile_button_clicked()
 {
     User_Page U(B.get_username(),true);

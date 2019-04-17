@@ -23,7 +23,7 @@ private:
     Ui::Loading *ui;
 public:
     bool download_started = false;
-    QMovie *movie;// = new QMovie(":/giphy.gif");
+    QMovie *movie;
     void input_path_for_movie(QString path)
     {
         movie = new QMovie(path);

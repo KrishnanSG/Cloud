@@ -1,7 +1,3 @@
-/*#include "homepage.h"
-#include "search_page.h"
-#include "notifications_page.h"
-#include "user_page.h"*/
 #include "uploadpage.h"
 #include "ui_uploadpage.h"
 #include "QProcess"
@@ -11,6 +7,8 @@
 #include "QDebug"
 #include <QDateTime>
 #include <QtConcurrent/QtConcurrent>
+#include <fstream>
+#include <c++/7/ios>
 
 Uploadpage::Uploadpage(char username[16], QWidget *parent) :
     QDialog(parent),
@@ -58,7 +56,10 @@ void Uploadpage::on_user_clicked()
 {
     done(5);
 }
-
+/*
+ while opening the upload page the current directory is set to our
+files and the changes is written
+ */
 void Uploadpage::on_select_image_clicked()
 {
     QString str = QDir::homePath();
@@ -71,6 +72,11 @@ void Uploadpage::on_select_image_clicked()
     QPixmap picture(QString(A.get_username())+"/"+img_path);
     ui->display_image->setPixmap(picture.scaled(ui->display_image->width(),ui->display_image->height(),Qt::KeepAspectRatio));
 }
+/*
+ while uploading the picture we checking whether the file exist or not
+ if it exist we writing into the correspong file
+ */
+
 void Uploadpage::on_picture_upload_clicked()
 {
     if(image_file.isEmpty())
@@ -81,26 +87,26 @@ void Uploadpage::on_picture_upload_clicked()
     {
         QDir::setCurrent(QDir::homePath()+"/pixel-database/");
         QtConcurrent::run(upload_img,img_path,A.get_username());
-        FILE *upload_file;
-        upload_file = fopen("database.dat","rb+");
+        std::fstream upload_file;
+        upload_file.open("database.dat",std::ios::in| std::ios::binary);
         Account temp_read;
         int record_number=-1;
-        while(fread(&temp_read,sizeof(temp_read),1,upload_file))
+        while(upload_file.read((char *)&temp_read,sizeof(temp_read)))
         {
             record_number++;
             qDebug() <<temp_read.get_username()<<":"<<temp_read.get_image_count();
             if(strcmp(temp_read.get_username(),A.get_username())==0)
             {
-                rewind(upload_file);
-                fseek(upload_file,sizeof(temp_read)*(record_number),SEEK_SET);
+                upload_file.seekg(0,std::ios::beg);
+                upload_file.seekg(sizeof(temp_read)*(record_number),std::ios::beg);
                 temp_read.add_image();
                 qDebug() << temp_read.get_image_count();
-                fwrite(&temp_read,sizeof(temp_read),1,upload_file);
+                upload_file.write((char*)&temp_read,sizeof(temp_read));
                 break;
             }
         }
         QMessageBox::information(this,"Uploaded","Image Uploaded");
-        fclose(upload_file);
+        upload_file.close();
         QtConcurrent::run(upload_img,QString("database.dat"));
     }
 }

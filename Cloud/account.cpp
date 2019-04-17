@@ -37,3 +37,7 @@ void Account::input(char u[16])
 {
     strcpy(username,u);
 }
+/*
+ here we storing the user's account details such as username
+ password ,image_count
+*/

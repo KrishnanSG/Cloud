@@ -1,17 +1,16 @@
-/*#include "homepage.h"
-#include "search_page.h"
-#include "uploadpage.h"
-#include "notifications_page.h"
-*/
 #include "user_page.h"
 #include "ui_user_page.h"
 #include "friends.h"
 #include <QDir>
 #include <QFile>
 #include <QDebug>
-
-User_Page::User_Page(char username[16],bool mode,QWidget *parent) :
-    QDialog(parent),
+/*
+ here we are loading our uploads from the our file
+ into the vector data structure and by clicking up and down button
+ we are traversing and loading the images into the label
+ */
+User_Page::User_Page(char username[16],bool mode) :
+    HomePage (username),
     ui(new Ui::User_Page)
 {
     A.input(username);
@@ -79,13 +78,19 @@ void User_Page::on_user_clicked()
 {
     done(5);
 }
+/*
+ when friends button is our friends username his profile view is
+ shown
 
+ */
 void User_Page::on_friends_clicked()
 {
     Friends H(A.get_username());
     H.show();
-    //this->close();
     H.exec();
+
+    // Invokes the friends class object
+
 }
 
 void User_Page::on_prev_pic_clicked()

@@ -3,19 +3,21 @@
 #include <QDebug>
 #include <QtConcurrent/QtConcurrent>
 #include <QDir>
+#include <fstream>
+#include <c++/7/ios>
+
+/*
+  This class called Controller is important for any GUI application
+  based on MVC model.
+ *  Model      - where data is recieved and manuplation takes place
+ *  View       - the ui files
+ *  Controller - joins Model with the View and controls logic
+                 based on user actions.
+ */
 
 void get_files(QString remote,QString local)      // for files
 {
     QProcess::execute("skicka download pixel-database/"+remote+" "+local);
-}
-
-void Controller::send_image_notification()
-{
-    FILE *fp;
-    QDir::setCurrent(QDir::homePath()+"/pixel-database/"+QString(current_user));
-    fp = fopen("friends.txt","r");
-    fclose(fp);
-    QDir::setCurrent(QDir::homePath()+"/pixel-database");
 }
 
 Controller::Controller(char username[16])
@@ -81,6 +83,5 @@ Controller::Controller(char username[16])
             QtConcurrent::run(get_files,QString(current_user)+"/friends.txt",QString(current_user)+"/");
             QtConcurrent::run(get_files,QString("/database.dat"),QString("database.dat"));
         }
-
     }
 }
