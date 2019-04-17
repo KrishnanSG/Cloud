@@ -1,5 +1,7 @@
 # Cloud
 
+![](https://github.com/KrishnanSG/ProjectPixel/blob/master/Final_Logo.png)
+
 **Project Completed on 24 March 2019**
 
 A Desktop application for photo sharing among friends with a simple and faster GUI.
@@ -17,7 +19,3 @@ A Desktop application for photo sharing among friends with a simple and faster G
 **Hariharan S V**  (https://github.com/Hariharan20)
 
 **Lakshmi Narayanan**  (https://github.com/lakshminarayanannn)
-
-
-![](https://github.com/KrishnanSG/ProjectPixel/blob/master/Final_Logo.png)
-
