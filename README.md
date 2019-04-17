@@ -7,7 +7,7 @@
 This desktop application provides a new platform for instant photo sharing among friends with a simple and faster GUI. Since all your pictures and personal details are stored in an encrypted format you need not worry about your security or someone stealing your data.
 
 
-> Note: The project will be depolyed soon along with installation steps.
+>**Note: The project will be depolyed soon along with installation steps.**
 
 
 **How is this better?**
@@ -30,6 +30,6 @@ This desktop application provides a new platform for instant photo sharing among
 
 **Lakshmi Narayanan**  (https://github.com/lakshminarayanannn)
 
-**Version 2.0 will be released soon**
+>**Version 2.0 will be released soon**
 
 **Show your support by clicking Watch and Star for this repository to receive notification about the next release.**
