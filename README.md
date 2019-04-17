@@ -7,7 +7,7 @@
 This desktop application provides a new platform for instant photo sharing among friends with a simple and faster GUI. Since all your pictures and personal details are stored in an encrypted format so you need not worry about your security or someone stealing your data.
 
 
->**Note: The project will be depolyed soon along with installation steps.**
+>**Note: The project will be deployed soon along with installation steps.**
 
 
 **How is this better?**
