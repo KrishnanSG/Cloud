@@ -4,7 +4,7 @@
 
 **Project Completed on 24 March 2019**
 
-This desktop application provides a new platform for instant photo sharing among friends with a simple and faster GUI. Since all your pictures and personal details are stored in an encrypted format you need not worry about your security or someone stealing your data.
+This desktop application provides a new platform for instant photo sharing among friends with a simple and faster GUI. Since all your pictures and personal details are stored in an encrypted format so you need not worry about your security or someone stealing your data.
 
 
 >**Note: The project will be depolyed soon along with installation steps.**
@@ -12,9 +12,9 @@ This desktop application provides a new platform for instant photo sharing among
 
 **How is this better?**
 
-1. With the help of threading each friend's data is downloaded independently, hence creating better user experience as we minimized those boring loading screens to a great extent. Download to try it out :) 
+1. With the help of threading each friend's data is downloaded independently, hence creating better user experience as we have minimized those boring loading screens to a great extent. Download to try it out :) 
 2. Since we have focused on photo sharing primarily we believe that we have achieved a faster traffic management, thanks to the script file we devoloped.
-3. All your data is secure and store in an encrypted form.
+3. All your data is secure and stored in an encrypted form.
 
 # Future Release
 1. To add the feature of comment,like and share. 
