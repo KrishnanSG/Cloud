@@ -1,6 +1,6 @@
 # Cloud
 
-![](https://github.com/KrishnanSG/ProjectPixel/blob/master/Final_Logo.png)
+![](https://github.com/KrishnanSG/Cloud/blob/master/Final_Logo.png)
 
 **Project Completed on 24 March 2019**
 
