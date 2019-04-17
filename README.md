@@ -13,7 +13,7 @@ This desktop application provides a new platform for instant photo sharing among
 **How is this better?**
 
 1. With the help of threading each friend's data is downloaded independently, hence creating better user experience as we have minimized those boring loading screens to a great extent. Download to try it out :) 
-2. Since we have focused on photo sharing primarily we believe that we have achieved a faster traffic management, thanks to the script file we devoloped.
+2. Since we have focused on photo sharing primarily we believe that we have achieved a faster traffic management, thanks to the script file we developed.
 3. All your data is secure and stored in an encrypted form.
 
 # Future Release
