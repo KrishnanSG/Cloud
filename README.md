@@ -26,10 +26,9 @@ This desktop application provides a new platform for instant photo sharing among
 
 **Krishnan S G**    (https://github.com/KrishnanSG)
 
-**Hariharan S V**  (https://github.com/Hariharan20)
+**Hariharan S V**  (https://github.com/Hariharan-SV)
 
 **Lakshmi Narayanan**  (https://github.com/lakshminarayanannn)
 
->**Version 2.0 will be released soon**
 
 **Show your support by clicking Watch and Star for this repository to receive notification about the next release.**
